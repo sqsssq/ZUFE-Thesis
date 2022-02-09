@@ -51,18 +51,7 @@
 ## 编译
 
 ```
--> xelatex
--> biber
--> xelatex
--> xelatex
-
-or
-
--> 直接将 zip 导入 overleaf (在线LateX编辑器: https://www.overleaf.com/project)
--> Menu
--> Settings
--> Compiler
--> XeLaTeX
+直接 用XeLaTeX 编译 main.tex
 ```
 
 ## 文件解释
