@@ -169,11 +169,11 @@
 \setlength{\abovecaptionskip}{11pt}
 \setlength{\belowcaptionskip}{9pt}
 
-\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
 \DeclareCaptionFont{kaitigb}{\kaitigb}
 \captionsetup[figure]{font=kaitigb,labelsep=quad}
 
-\renewcommand{\thetable}{\thechapter.\arabic{table}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
 \DeclareCaptionFont{kaitigb}{\kaitigb}
 \captionsetup[table]{font={kaitigb},labelsep=quad,skip=2pt}
 

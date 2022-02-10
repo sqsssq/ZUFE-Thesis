@@ -87,7 +87,7 @@
 \setCJKfamilyfont{xihei}[AutoFakeBold,AutoFakeSlant]{[simhei.TTF]} % 若希望使用本机字体，也可以用 {STXihei} 来调用
 \newcommand{\xihei}{\CJKfamily{xihei}}
 
-\setCJKfamilyfont{kaitigb}[AutoFakeBold,AutoFakeSlant]{[kaiti_GB2312.TTF]}
+\setCJKfamilyfont{kaitigb}[AutoFakeBold,AutoFakeSlant]{[楷体_GB2312.TTF]}
 \newcommand{\kaitigb}{\CJKfamily{kaitigb}}
 
 \fancypagestyle{ZUFEThesis}{
@@ -169,11 +169,11 @@
 \setlength{\abovecaptionskip}{11pt}
 \setlength{\belowcaptionskip}{9pt}
 
-\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
 \DeclareCaptionFont{kaitigb}{\kaitigb}
 \captionsetup[figure]{font=kaitigb,labelsep=quad}
 
-\renewcommand{\thetable}{\thechapter.\arabic{table}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
 \DeclareCaptionFont{kaitigb}{\kaitigb}
 \captionsetup[table]{font={kaitigb},labelsep=quad,skip=2pt}
 
