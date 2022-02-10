@@ -2,7 +2,7 @@
 
 
 
-<div align=center><img src="InitFile/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/ZUFE-Thesis-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.0.1-blue"></div>
+<div align=center><img src="InitFile/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.0.1-blue"></div>
 
 # ZUFE-Thesis
 
