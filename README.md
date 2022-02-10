@@ -1,7 +1,10 @@
 <!-- ![](InitFile/schoolLogo.png) -->
+<div style="align: center">
 <img src="InitFile/schoolLogo.png" align="middle" width="20%">
 
 ![](https://img.shields.io/badge/ZUFE-Thesis-brightgreen)&nbsp;![](https://img.shields.io/badge/version-1.0.0-blue)
+
+</div>
 
 # ZUFE-Thesis
 
