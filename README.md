@@ -1,16 +1,8 @@
-<!-- ![](InitFile/schoolLogo.png) -->
 
 
 
 
-
-<div algin=center><img src="InitFile/schoolLogo.png" width="20%"></div>
-
-
-
-
-​        
-![](https://img.shields.io/badge/ZUFE-Thesis-brightgreen)&nbsp;![](https://img.shields.io/badge/version-1.0.0-blue)
+<div align=center><img src="InitFile/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/ZUFE-Thesis-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.0.1-blue"></div>
 
 # ZUFE-Thesis
 
