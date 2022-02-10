@@ -57,6 +57,11 @@
 
 ```
 直接 用XeLaTeX 编译 main.tex
+
+or
+
+overleaf模板，在线编辑LaTeX，也要用XeLateX编译
+https://www.overleaf.com/latex/templates/zufe-thesis/ztbprkjkqzhm
 ```
 
 ## 文件解释
