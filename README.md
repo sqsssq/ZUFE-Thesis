@@ -1,6 +1,7 @@
 <!-- ![](InitFile/schoolLogo.png) -->
 <img src="InitFile/schoolLogo.png" width="20%">
 # ZUFE-Thesis
+
 ![](https://img.shields.io/badge/ZUFE-Thesis-brightgreen)&nbsp;![](https://img.shields.io/badge/version-1.0.0-blue)
 
 浙江财经大学本科生毕业论文（设计）模板，LaTeX / Word
