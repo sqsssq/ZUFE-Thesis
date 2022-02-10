@@ -1,3 +1,4 @@
+![]()
 # ZUFE-Thesis
 ![](https://img.shields.io/badge/ZUFE-Thesis-brightgreen)&nbsp;![](https://img.shields.io/badge/version-1.0.0-blue)
 
@@ -78,3 +79,5 @@
 3. 最终论文中不能出现蓝字，一定要全部删除。
 4. 祝大家论文顺利。
 
+## 致谢
+感谢 北京理工大学 模板
