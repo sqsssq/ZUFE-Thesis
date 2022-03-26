@@ -45,5 +45,5 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{附录A\nobreakspace {}\nobreakspace {}\nobreakspace {}\nobreakspace {}附录内容的名称}{7}{chapter*.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{致\nobreakspace {}\nobreakspace {}\nobreakspace {}\nobreakspace {}谢}{8}{chapter*.11}%
+\contentsline {chapter}{致\nobreakspace {}\nobreakspace {}\nobreakspace {}\nobreakspace {}谢}{7}{chapter*.11}%
 \contentsfinish 

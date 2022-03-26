@@ -2,7 +2,7 @@
 
 
 
-<div align=center><img src="InitFile/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/ZUFE-Thesis-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.0.1-blue"></div>
+<div align=center><img src="InitFile/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.0.1-blue"></div>
 
 # ZUFE-Thesis
 
@@ -57,6 +57,11 @@
 
 ```
 直接 用XeLaTeX 编译 main.tex
+
+or
+
+overleaf模板，在线编辑LaTeX，也要用XeLateX编译
+https://www.overleaf.com/latex/templates/zufe-thesis/ztbprkjkqzhm
 ```
 
 ## 文件解释
@@ -76,7 +81,7 @@
 
 
 
-🚩 注意：
+�� 注意：
 
 1. 目前版本的毕业设计论文已经按照浙江财经大学2018级（2022届）毕业论文模板进行了设计与排版的更新。
 2. 仔细阅读 main.tex 和 chapter_sample.tex ，按照格式和要求撰写论文。
