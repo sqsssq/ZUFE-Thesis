@@ -4,7 +4,8 @@
 
 <div align=center><img src="InitFile/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.1.1-blue"></div>
 
-# 建议大家尽量用Overleaf在线编译，Overleaf通过OCRID进行注册，https://www.overleaf.com/latex/templates/zufe-thesis/ztbprkjkqzhm
+# 建议大家尽量用Overleaf在线编译，Overleaf通过OCRID进行注册，
+# https://www.overleaf.com/latex/templates/zufe-thesis/ztbprkjkqzhm
 
 # ZUFE-Thesis
 
