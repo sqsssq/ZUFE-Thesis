@@ -1,0 +1,30 @@
+% 参考文献
+
+
+% 参考文献开始
+\unnumchapter{参考文献}
+\renewcommand{\thechapter}{参考文献}
+
+% 设置参考文献字号为 小四 号
+\renewcommand*{\bibfont}{\zihao{-4}}
+% 设置首行缩进2字符
+\setlength{\bibhang}{2em}
+% 设置参考文献各个项目之间的垂直距离为 0
+\setlength{\bibitemsep}{0ex}
+\setlength{\bibnamesep}{0ex}
+\setlength{\bibinitsep}{0ex}
+% 设置行距
+\renewcommand{\baselinestretch}{1.53}
+% 设置参考文献顺序标签 `[1]` 与文献内容 `作者. 文献标题...` 的间距
+\setlength{\biblabelsep}{0.5mm}
+% 设置参考文献后文缩进为 0（与 Word 模板保持一致）
+\renewcommand{\itemcmd}{
+  \addvspace{\bibitemsep} % 恢复 \bibitemsep 的作用
+  \hspace{\bibhang} % 恢复首行缩进
+  \mkgbnumlabel{\printfield{labelnumber}}
+  \hspace{\biblabelsep}}
+% 删除默认的「参考文献 / Reference」标题，使用上面定义的 section 标题
+
+
+%输出所有的参考文献
+\printbibliography[heading=none]

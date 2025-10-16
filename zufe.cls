@@ -87,8 +87,14 @@
 \setCJKfamilyfont{xihei}[AutoFakeBold,AutoFakeSlant]{[simhei.TTF]} % 若希望使用本机字体，也可以用 {STXihei} 来调用
 \newcommand{\xihei}{\CJKfamily{xihei}}
 
-\setCJKfamilyfont{kaitigb}[AutoFakeBold,AutoFakeSlant]{[kaiti_GB2312.TTF]}
-\newcommand{\kaitigb}{\CJKfamily{kaitigb}}
+%因商用字体且不支持生僻字，使用mystkaiti代替
+%\setCJKfamilyfont{kaitigb}[AutoFakeBold,AutoFakeSlant]{[kaiti_GB2312.TTF]}
+%\newcommand{\kaitigb}{\CJKfamily{kaitigb}}
+
+\setCJKfamilyfont{mystsong}[AutoFakeBold,AutoFakeSlant]{[stsong.ttf]}
+\newcommand{\mystsong}{\CJKfamily{mystsong}}
+\setCJKfamilyfont{mystkaiti}[AutoFakeBold,AutoFakeSlant]{[stkaiti.ttf]}
+\newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
 
 \fancypagestyle{ZUFEThesis}{
   % 页眉高度
@@ -98,7 +104,11 @@
 
   \fancyhf{}
   % 定义页眉、页码
-  \fancyhead[C]{\xiaowu\ziju{0.08}\songti{浙江财经大学本科生毕业论文（设计）}}
+  \ifnum\reportStyle=0  
+    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{浙江财经大学本科生毕业论文（设计）}}
+  \else
+    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{浙江财经大学本科生专业实践报告（专业实践{\reportStyle}）}}
+  \fi
   \fancyfoot[C]{\songti\zihao{5} \thepage}
   % 页眉分割线稍微粗一些
   \renewcommand{\headrulewidth}{0.4pt}
@@ -115,7 +125,7 @@
     afterskip = 32bp,
     fixskip = true,
     % 防止 chapter 换页
-    break = {}
+    % break = {}
   }
 }
 
@@ -170,12 +180,12 @@
 \setlength{\belowcaptionskip}{9pt}
 
 \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
-\DeclareCaptionFont{kaitigb}{\kaitigb}
-\captionsetup[figure]{font=kaitigb,labelsep=quad}
+\DeclareCaptionFont{mystkaiti}{\mystkaiti}
+\captionsetup[figure]{font=mystkaiti,labelsep=quad}
 
 \renewcommand{\thetable}{\thechapter.\arabic{table}}
-\DeclareCaptionFont{kaitigb}{\kaitigb}
-\captionsetup[table]{font={kaitigb},labelsep=quad,skip=2pt}
+\DeclareCaptionFont{mystkaiti}{\mystkaiti}
+\captionsetup[table]{font={mystkaiti},labelsep=quad,skip=2pt}
 
 \tolerance=1
 \emergencystretch=\maxdimen
@@ -220,7 +230,7 @@
 
 \RequirePackage{listings}
 % 用来设置附录中代码的样式
-
+\renewcommand\lstlistingname{代码}
 \lstset{
     basicstyle          =   \sffamily,          % 基本代码风格
     keywordstyle        =   \bfseries,          % 关键字风格

@@ -23,7 +23,7 @@
   \vspace{2mm}
   \ifhaveSubTitle
   \begin{spacing}{1.2}
-    \sihao\selectfont{\textmd{\kaitigb{-----}\thesisSubTitle}}
+    \sihao\selectfont{\textmd{\mystkaiti{-----}\thesisSubTitle}}
   \end{spacing}
   \fi
 \end{center}
@@ -42,13 +42,16 @@
 
 \textbf{\heiti\xiaosi{摘要：}}
 % 中文摘要正文从这里开始-----------------------------------------------------------------
-本文……。
-
+{\mystkaiti{
+本文……生僻字:垚瑄。{\songti{正文默认字体为\textbackslash{}songti命令，与支持生僻字的{\mystsong{方正宋体}}略有区别，因此正文中宋体生僻字使用\textbackslash{}mystsong命令代替即可。如：\mystsong{垚瑄}}}。
 \textcolor{blue}{摘要的内容要包括研究的目的、方法、结果和结论。计量单位一律换算成国际标准计量单位。除特殊情况外，数字一律用阿拉伯数字。中、英文摘要的内容应严格一致。}
+}}
 
 \vspace{1em}
 \textbf{\heiti\xiaosi{关键词：}}
-计算机科学与技术；算法；复杂度；深度学习；机器学习；可视化
+{\mystkaiti{
+计算机科学与技术；算法；复杂度；深度学习；机器学习；可视化计算
+}}
 % \newpage
 
 % 英文摘要章节

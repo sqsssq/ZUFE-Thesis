@@ -1,0 +1,66 @@
+% 封面
+% 无特殊要求，不需要修改
+% XelaTeX编译
+\newcommand\dunderline[3][-1pt]{{%
+  \setbox0=\hbox{#3}
+  \ooalign{\copy0\cr\rule[\dimexpr#1-#2\relax]{\wd0}{#2}}}}
+
+% Cover Page
+\begin{titlepage}
+  \makeatletter
+  \vspace*{-20mm}
+  \centering
+
+  \hspace{9cm}\includegraphics[width=3cm]{InitFile/schoolLogo.png}\\
+  \hspace{9cm}\includegraphics[width=5cm, height=1cm]{InitFile/schoolName.png}
+  \vspace{10mm}
+  
+  \ifnum\reportStyle=0  
+	\zihao{1}\textbf{\ziju{0.12}\songti{本\hspace{5mm}科\hspace{5mm}生\hspace{5mm}毕\hspace{5mm}业\hspace{5mm}论\hspace{5mm}文（设计）}}
+	\vspace{25mm}
+  \else  
+	\zihao{1}\textbf{\ziju{0.12}\songti{本\hspace{5mm}科\hspace{5mm}生\hspace{5mm}专\hspace{5mm}业\hspace{5mm}实\hspace{5mm}践\hspace{5mm}报\hspace{5mm}告}}  \\  
+	\zihao{1}\textbf{\ziju{0.12}\songti{（专业实践{\reportStyle}）}}  
+	\vspace{11mm}
+  \fi
+  
+%\begin{center}
+
+  \begin{minipage}[c][50mm][t]{\textwidth}
+	\begin{center}
+	\xiaoer\textmd{\heiti{题目：}\thesisTitle}
+	
+	\vspace{5mm}
+	\ifhaveSubTitle
+	\begin{spacing}{1.2}
+	  \sanhao\selectfont{\textmd{\mystkaiti{-----}\thesisSubTitle}}
+	\end{spacing}
+	\fi
+	\end{center}
+  \end{minipage}
+
+  \flushleft
+
+  \makeatletter
+  % 生成校内毕设封面字段
+  \makeatother
+  \begin{spacing}{1.8}
+  	\hspace{27mm}\songti\zihao{3}\selectfont{学生姓名：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\yourName}}}
+  	
+  	\hspace{27mm}\songti\zihao{3}\selectfont{学\hspace{11mm}号：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\yourStudentID}}}
+  	
+  	\hspace{27mm}\songti\zihao{3}\selectfont{指导教师：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\mentorName}}}
+  	
+  	\hspace{27mm}\songti\zihao{3}\selectfont{所在学院：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\deptName}}}
+  	
+  	\hspace{27mm}\songti\zihao{3}\selectfont{专业名称：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\majorName}}}
+  	
+  	\hspace{27mm}\songti\zihao{3}\selectfont{班\hspace{11mm}级：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\className}}}
+  \end{spacing}
+
+  \vspace{25mm}
+  \centering
+  \zihao{4}\ziju{0.5}\xihei{\Today}
+%  \end{center}
+\end{titlepage}
+

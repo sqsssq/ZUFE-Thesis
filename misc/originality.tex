@@ -1,0 +1,66 @@
+% 原创性声明页
+% 无特殊要求，不用修改
+
+\fancypagestyle{originality}{
+  % 页眉高度
+  \setlength{\headheight}{10pt}
+
+  % 页眉和页脚（页码）的格式设定
+  \fancyhf{}
+  \fancyhead[]{}
+
+  % 页眉分割线稍微粗一些
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+\pagestyle{originality}
+% \topskip=0pt
+
+% % 圆形数字编号定义
+% \newcommand{\circled}[2][]{\tikz[baseline=(char.base)]
+%   {\node[shape = circle, draw, inner sep = 1pt]
+%   (char) {\phantom{\ifblank{#1}{#2}{#1}}};
+%   \node at (char.center) {\makebox[0pt][c]{#2}};}}
+% \robustify{\circled}
+
+% 设置行间距
+\setlength{\parskip}{0.4em}
+\renewcommand{\baselinestretch}{1.41}
+
+% 顶部空白
+\vspace*{-6mm}
+
+% 原创性声明部分
+\begin{center}
+  \heiti\zihao{2}\textmd{声明及论文使用的授权}
+\end{center}
+
+\vspace{10mm}
+
+
+% 本部分字号为小三
+\zihao{-3}
+
+本人郑重声明所呈交的论文是我个人在导师的指导下独立完成的。除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写的研究成果。
+
+\vspace{15mm}
+
+\begin{flushright}
+  论文作者签名：\hspace{75mm}年\hspace{8mm}月\hspace{8mm}日
+\end{flushright}
+
+\vspace{40mm}
+
+% 使用授权声明部分
+
+\zihao{-3}
+
+本人同意浙江财经大学有关保留使用学位论文的规定，即：学校有权保留送交论文的复印件，允许论文被查阅和借阅；学校可以上网公布全部内容，可以采用影印、缩印或其他复制手段保存论文。
+
+\vspace*{15mm}
+
+\begin{flushright}
+  论文作者签名：\hspace{75mm}年\hspace{8mm}月\hspace{8mm}日
+\end{flushright}
+
+\newpage
