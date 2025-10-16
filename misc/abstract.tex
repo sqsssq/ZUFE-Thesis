@@ -1,0 +1,63 @@
+% 中英文摘要章节
+\zihao{-4}
+\vspace*{-10mm}
+
+\begin{center}
+  \heiti\zihao{3}\textmd{\thesisTitle}
+  \vspace{2mm}
+  \ifhaveSubTitle
+  \begin{spacing}{1.2}
+    \sihao\selectfont{\textmd{\mystkaiti{-----}\thesisSubTitle}}
+  \end{spacing}
+  \fi
+\end{center}
+
+\vspace*{0mm}
+
+{\let\clearpage\relax \chapter*{\textmd{}}}
+% 加入目录
+\addcontentsline{toc}{chapter}{摘~~~~要}
+\setcounter{page}{1}
+
+\vspace*{-12mm}
+\setstretch{1.53}
+\setlength{\parskip}{0em}
+
+\textbf{\heiti\xiaosi{摘要：}}
+% 中文摘要正文从这里开始-----------------------------------------------------------------
+{\mystkaiti{\abstractCN}}
+
+\vspace{1em}
+\textbf{\heiti\xiaosi{关键词：}}
+{\mystkaiti{\keywordsCN}}
+
+% 英文摘要章节
+\vspace*{15mm}
+
+\begin{spacing}{0.95}
+  \centering
+  \zihao{3}\textbf{\thesisTitleEN}
+  \vspace{2mm}
+  \ifhaveSubTitle
+  \begin{spacing}{1.2}
+    \sihao\selectfont{\textmd{{-----}\thesisSubTitleEN}}
+  \end{spacing}
+  \fi
+\end{spacing}
+
+\vspace*{0mm}
+
+{\let\clearpage\relax \chapter*{\zihao{-3}\textmd{}\vskip -3bp}}
+\addcontentsline{toc}{chapter}{Abstract}
+\setcounter{page}{1}
+
+\setstretch{1.53}
+\setlength{\parskip}{0em}
+
+\textbf{\heiti\xiaosi{Abstract: }}
+\abstractEN
+
+
+\textbf{\xiaosi{Key words:}}
+\keywordsEN
+\newpage

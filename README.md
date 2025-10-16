@@ -6,7 +6,9 @@
 
 # ZUFE-Thesis
 
-浙江财经大学本科生毕业论文（设计）模板，LaTeX / Word
+浙江财经大学本科生毕业论文（设计）LaTeX模板，基于最新Word模板修订。使用本模板时，**仅Reference.bib文件和chapters目录**下内容需要由用户修改，其他文件无特殊要求不用修改。
+
+本模板原作者石青，是软件工程专业2022届毕业生。
 
 ## 项目结构
 
@@ -55,14 +57,16 @@
 
 ## 编译
 
-```
-用 XeLaTeX 编译 main.tex， 用 Biber 编译 bib文件 
+用 XeLaTeX 编译 main.tex， 用 Biber 编译 bib文件，建议使用TeXLive 2023以上版本。
 
 or
 
-overleaf模板，在线编辑LaTeX，也要用XeLateX编译
+overleaf模板（版本较旧，无法实时更新，需要额外修订），在线编辑LaTeX，也要用XeLateX编译
 https://www.overleaf.com/latex/templates/zufe-thesis/ztbprkjkqzhm
-```
+
+目前，免费订阅的Overleaf对于编译时间约束更多，可能无法愉快使用了。可以考虑其他平替产品，如https://www.texpage.com/和https://app.loongtex.com/workspace等平台。
+
+不过，仍然强烈推荐本地部署+git版本管理的方式。本地部署可以使用VSCode/TeXstudio+TeXLive/MiKTeX。
 
 ## 文件解释
 
@@ -83,17 +87,23 @@ https://www.overleaf.com/latex/templates/zufe-thesis/ztbprkjkqzhm
 注意：
 
 1. 目前版本的毕业设计论文已经按照浙江财经大学2018级（2022届）毕业论文模板进行了设计与排版的更新。
-2. 仔细阅读 main.pdf 和 chapter_sample.tex ，按照格式和要求撰写论文。
+2. 仔细阅读 main.pdf（需编译生成） 和 chapters/2_chapter_sample.tex，按照格式和要求撰写论文。
 3. 最终论文中不能出现蓝字，一定要全部删除。
 4. 祝大家论文顺利。
 
 ## 致谢
 感谢 北京理工大学 模板
 
-## 版本更新历史
+## 版本更新历史（如有问题，发送至cwf818@gmail.com）
+20251010
+1. 修复目录页码缺失问题。
+2. 修复新的maketfm字体加载机制变化导致的字体加载问题。
+3. 修订摘要内容。
+3. 其他一些优化。
+
 20240925
 1. 增加reportStyle变量（basicinfo.tex），用于指定文档类型（毕业论文/专业实践1/专业实践2），并且条件控制控制页眉、原创声明、致谢等内容。
-2. 修改了项目的结构，目前仅Reference.bib文件和chapters目录下内容需要由用户修改，其他文件无特殊要求不用修改。
+2. 修改了项目的结构，目前**仅Reference.bib文件和chapters目录**下内容需要由用户修改，其他文件无特殊要求不用修改。
 3. 使用定高的minipage控制标题内容，避免标题内容长短引起封面页布局变化。
 4. 其他一些优化。
 
