@@ -8,6 +8,7 @@
 \newif\if@bit@bachelor
 \newif\if@bit@master
 \newif\if@bit@doctor
+\newif\ifanony
 
 % 判断是否有副标题，默认没有
 \newif\ifhaveSubTitle\haveSubTitlefalse
@@ -37,6 +38,7 @@
 
 
 \DeclareOption{bachelor}{\@bit@bachelortrue}
+\DeclareOption{anony}{\anonytrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ExecuteOptions{bachelor}
 
@@ -97,6 +99,15 @@
 \setCJKfamilyfont{mystkaiti}[Path=./,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stkaiti}
 \newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
 
+\newcommand{\schoolName}{浙江财经大学}
+\ifanony
+  \renewcommand{\schoolName}{XX大学}
+\fi
+\newcommand{\schoolLogoPath}{InitFile/schoolLogo.png}
+\ifanony
+  \renewcommand{\schoolLogoPath}{InitFile/anonyLogo.png}
+\fi
+
 \fancypagestyle{ZUFEThesis}{
   % 页眉高度
   \setlength{\headheight}{20pt}
@@ -105,10 +116,10 @@
 
   \fancyhf{}
   % 定义页眉、页码
-  \ifnum\reportStyle=0  
-    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{浙江财经大学本科生毕业论文（设计）}}
+  \ifnum\reportStyle=0
+    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{\schoolName 本科生毕业论文（设计）}}
   \else
-    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{浙江财经大学本科生专业实践报告（专业实践{\reportStyle}）}}
+    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{\schoolName 本科生专业实践报告（专业实践{\reportStyle}）}}
   \fi
   \fancyfoot[C]{\songti\zihao{5} \thepage}
   % 页眉分割线稍微粗一些

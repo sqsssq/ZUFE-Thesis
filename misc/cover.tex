@@ -11,8 +11,7 @@
   \vspace*{-20mm}
   \centering
 
-  \hspace{9cm}\includegraphics[width=3cm]{InitFile/schoolLogo.png}\\
-  \hspace{9cm}\includegraphics[width=5cm, height=1cm]{InitFile/schoolName.png}
+  \hspace{9cm}\includegraphics[width=5cm]{\schoolLogoPath}\\
   \vspace{10mm}
   
   \ifnum\reportStyle=0  
@@ -45,17 +44,17 @@
   % 生成校内毕设封面字段
   \makeatother
   \begin{spacing}{1.8}
-  	\hspace{27mm}\songti\zihao{3}\selectfont{学生姓名：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\yourName}}}
-  	
-  	\hspace{27mm}\songti\zihao{3}\selectfont{学\hspace{11mm}号：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\yourStudentID}}}
-  	
-  	\hspace{27mm}\songti\zihao{3}\selectfont{指导教师：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\mentorName}}}
-  	
-  	\hspace{27mm}\songti\zihao{3}\selectfont{所在学院：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\deptName}}}
-  	
-  	\hspace{27mm}\songti\zihao{3}\selectfont{专业名称：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\majorName}}}
-  	
-  	\hspace{27mm}\songti\zihao{3}\selectfont{班\hspace{11mm}级：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\className}}}
+  	\hspace{27mm}\songti\zihao{3}\selectfont{学生姓名：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\ifanony 匿名\else \yourName\fi}}}
+
+  	\hspace{27mm}\songti\zihao{3}\selectfont{学\hspace{11mm}号：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\ifanony 匿名\else \yourStudentID\fi}}}
+
+  	\hspace{27mm}\songti\zihao{3}\selectfont{指导教师：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\ifanony 匿名\else \mentorName\fi}}}
+
+  	\hspace{27mm}\songti\zihao{3}\selectfont{所在学院：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\ifanony 匿名\else \deptName\fi}}}
+
+  	\hspace{27mm}\songti\zihao{3}\selectfont{专业名称：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\ifanony 匿名\else \majorName\fi}}}
+
+  	\hspace{27mm}\songti\zihao{3}\selectfont{班\hspace{11mm}级：\dunderline[-10pt]{1pt}{\makebox[78mm][c]{\ifanony 匿名\else \className\fi}}}
   \end{spacing}
 
   \vspace{25mm}
