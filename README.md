@@ -10,6 +10,8 @@
 
 如对本项目有任何建议或者问题，请在Issue中提出或者邮件联系cwf818@gmail.com。
 
+请大家多点点Star✨，谢谢大家！！！
+
 ## 编译
 
 用 XeLaTeX 编译 main.tex， 用 Biber 编译 bib文件，建议使用TeXLive 2023以上版本。
@@ -19,7 +21,7 @@ or
 overleaf模板（版本较旧，无法实时更新，需要额外修订），在线编辑LaTeX，也要用XeLateX编译
 https://www.overleaf.com/latex/templates/zufe-thesis/ztbprkjkqzhm
 
-目前，免费订阅的Overleaf对于编译时间约束更多，可能无法愉快使用了。可以考虑其他平替产品，如https://www.texpage.com/和https://app.loongtex.com/workspace等平台。
+目前，免费订阅的Overleaf对于编译时间约束更多，可能无法愉快使用了。可以考虑其他平替产品，如 https://www.texpage.com/ 和 https://app.loongtex.com/workspace 等平台。
 
 不过，仍然强烈推荐本地部署+git版本管理的方式。本地部署可以使用VSCode/TeXstudio+TeXLive/MiKTeX。
 
