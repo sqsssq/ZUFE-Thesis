@@ -6,49 +6,9 @@
 
 本模板原作者石青，是软件工程专业2022届毕业生。
 
-## 项目结构
+后续更新为软件工程学院陈伟锋教授。
 
-```
-.
-│  LICENSE
-│  main.pdf
-│  main.tex
-│  README.md
-│  Reference.bib
-│  simhei.ttf
-│  stkaiti.ttf
-│  stsong.ttf
-│  zufe.cls
-│
-├─chapters
-│      1_introduction.tex
-│      2_chapter_sample1.tex
-│      3_chapter_sample2.tex
-│      4_conclusion.tex
-│      5_reference_sample.tex
-│      acknowledgement.tex
-│      appendix.tex
-│      basicinfo.tex
-│      mainbody.tex
-│
-├─Images
-│      map.png
-│      placeholder.png
-│
-├─InitFile
-│      anonyLogo.png
-│      schoolLogo.png
-│
-├─misc
-│      cover.tex
-│      originality.tex
-│      reference.tex
-│
-└─papperCode
-        test.cpp
-        test.jar
-        test.py
-```
+如对本项目有任何建议或者问题，请在Issue中提出或者邮件联系cwf818@gmail.com。
 
 ## 编译
 
