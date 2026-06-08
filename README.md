@@ -10,7 +10,11 @@
 
 如对本项目有任何建议或者问题，请在 Issue 中提出，或发送邮件至 cwf818@gmail.com。
 
-如果本模板对你有帮助，欢迎 Star 支持。
+<div align=center>
+  <a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers">
+    <img src="https://img.shields.io/badge/如果本模板对你有帮助-欢迎点亮%20Star-yellow?style=for-the-badge&logo=github">
+  </a>
+</div>
 
 ## 快速开始
 
