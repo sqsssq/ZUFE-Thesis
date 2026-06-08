@@ -1,6 +1,8 @@
+.DS_Store
 *.log
 *.aux
 *.dvi
+*.xdv
 *.lof
 *.lot
 *.bit

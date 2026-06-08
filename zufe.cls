@@ -9,6 +9,8 @@
 \newif\if@bit@master
 \newif\if@bit@doctor
 \newif\ifanony
+\newif\ifzufe@provenance
+\zufe@provenancetrue
 
 % 判断是否有副标题，默认没有
 \newif\ifhaveSubTitle\haveSubTitlefalse
@@ -39,6 +41,7 @@
 
 \DeclareOption{bachelor}{\@bit@bachelortrue}
 \DeclareOption{anony}{\anonytrue}
+\DeclareOption{noprovenance}{\zufe@provenancefalse}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ExecuteOptions{bachelor}
 
@@ -55,7 +58,6 @@
 \RequirePackage{graphicx}
 \RequirePackage{fancyhdr}
 \RequirePackage{pdfpages}
-\RequirePackage{setspace}
 \RequirePackage{booktabs}
 \RequirePackage{multirow}
 \RequirePackage{caption}
@@ -63,11 +65,34 @@
 \RequirePackage{etoolbox}
 \RequirePackage{hyperref}
 \RequirePackage{xcolor}
-\RequirePackage{caption}
 \RequirePackage{array}
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
-\RequirePackage{pdfpages}
+
+\hypersetup{
+  hypertexnames=false,
+}
+
+\newcommand{\zufeTemplateName}{ZUFE-Thesis}
+\newcommand{\zufeTemplateVersion}{1.0.1}
+\newcommand{\zufeTemplateSignature}{ZUFE-Thesis LaTeX Template v\zufeTemplateVersion}
+
+\AtBeginDocument{%
+  \ifzufe@provenance
+    \special{pdf:docinfo <<
+      /Creator (\zufeTemplateSignature)
+      /Producer (\zufeTemplateName)
+      /Subject (Generated with the ZUFE-Thesis LaTeX template)
+      /Keywords (ZUFE-Thesis, ZUFE, LaTeX thesis template, Zhejiang University of Finance and Economics)
+    >>}%
+    \hypersetup{
+      pdfcreator={\zufeTemplateSignature},
+      pdfproducer={\zufeTemplateName},
+      pdfsubject={Generated with the ZUFE-Thesis LaTeX template},
+      pdfkeywords={ZUFE-Thesis, ZUFE, LaTeX thesis template, Zhejiang University of Finance and Economics}
+    }%
+  \fi
+}
 
 \RequirePackage[
   backend=biber,
@@ -85,19 +110,30 @@
 % \addbibresource{./Reference.bib}
 
 
-\setromanfont{Times New Roman}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{TeX Gyre Termes}}
 % \setCJKfamilyfont{xihei}[AutoFakeBold,AutoFakeSlant]{[simhei.TTF]} % 若希望使用本机字体，也可以用 {STXihei} 来调用
-\setCJKfamilyfont{xihei}[Path=./,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{simhei}
+\setCJKfamilyfont{xihei}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{simhei}
 \newcommand{\xihei}{\CJKfamily{xihei}}
 
 %因不支持生僻字，使用mystkaiti代替
 %\setCJKfamilyfont{kaitigb}[AutoFakeBold,AutoFakeSlant]{[kaiti_GB2312.TTF]}
 %\newcommand{\kaitigb}{\CJKfamily{kaitigb}}
 
-\setCJKfamilyfont{mystsong}[Path=./,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stsong}
+\setCJKfamilyfont{mystsong}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stsong}
 \newcommand{\mystsong}{\CJKfamily{mystsong}}
-\setCJKfamilyfont{mystkaiti}[Path=./,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stkaiti}
+\setCJKfamilyfont{mystkaiti}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stkaiti}
 \newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
+
+\pdfstringdefDisableCommands{%
+  \def\textcolor#1#2{#2}%
+  \def\underline#1{#1}%
+  \def\ziju#1{}%
+  \def\mystsong{}%
+  \def\mystkaiti{}%
+  \def\xihei{}%
+}
 
 \newcommand{\schoolName}{浙江财经大学}
 \ifanony
@@ -130,7 +166,7 @@
 \ctexset{chapter={
     name = {},
     number = {\arabic{chapter}},
-    format = {\heiti \bfseries \centering \zihao{3}},
+    format = {\xihei \bfseries \centering \zihao{3}},
     aftername = \hspace{9bp},
     pagestyle = ZUFEThesis,
     beforeskip = 32bp,
@@ -143,7 +179,7 @@
 
 \ctexset{section={
     number = {\thechapter.\hspace{4bp}\arabic{section}},
-    format = {\heiti \raggedright \bfseries \zihao{4}},
+    format = {\xihei \raggedright \bfseries \zihao{4}},
     aftername = \hspace{8bp},
     beforeskip = 20bp plus 1ex minus .2ex,
     afterskip = 18bp plus .2ex,
@@ -153,7 +189,7 @@
 
 \ctexset{subsection={
     number = {\thechapter.\hspace{3bp}\arabic{section}.\hspace{3bp}\arabic{subsection}},
-    format = {\heiti \bfseries \raggedright \zihao{-4}},
+    format = {\xihei \bfseries \raggedright \zihao{-4}},
     aftername = \hspace{7bp},
     beforeskip = 17bp plus 1ex minus .2ex,
     afterskip = 14bp plus .2ex,
@@ -164,18 +200,18 @@
 \addtocontents{toc}{\protect\hypersetup{hidelinks}}
 
 \renewcommand{\contentsname}{
-  \fontsize{16pt}{\baselineskip}
-  \normalfont\heiti{目~~~~录}
+  \fontsize{16pt}{24pt}\selectfont
+  \normalfont\xihei{目~~~~录}
   \vspace{-8pt}
 }
 \titlecontents{chapter}[0pt]{\songti \zihao{-4}}
-{\thecontentslabel\hspace{\ccwd}}{}
+{\contentslabel{2.5em}}{}
 {\hspace{.5em}\titlerule*{.}\contentspage}
-\titlecontents{section}[1\ccwd]{\songti \zihao{-4}}
-{\thecontentslabel\hspace{\ccwd}}{}
+\titlecontents{section}[2em]{\songti \zihao{-4}}
+{\contentslabel{3.5em}}{}
 {\hspace{.5em}\titlerule*{.}\contentspage}
-\titlecontents{subsection}[2\ccwd]{\songti \zihao{-4}}
-{\thecontentslabel\hspace{\ccwd}}{}
+\titlecontents{subsection}[4em]{\songti \zihao{-4}}
+{\contentslabel{4.5em}}{}
 {\hspace{.5em}\titlerule*{.}\contentspage}
 
 \renewcommand{\frontmatter}{
@@ -208,8 +244,9 @@
 
 \newcommand{\unnumchapter}[1]{
   \chapter*{\vskip 10bp\textmd{#1} \vskip -6bp}
+  \phantomsection
   \addcontentsline{toc}{chapter}{#1}
-  \stepcounter{chapter}
+  \setcounter{section}{0}
 }
 
 
