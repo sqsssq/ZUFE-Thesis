@@ -200,18 +200,18 @@
 \addtocontents{toc}{\protect\hypersetup{hidelinks}}
 
 \renewcommand{\contentsname}{
-  \fontsize{16pt}{24pt}\selectfont
-  \normalfont\xihei{目~~~~录}
+  \fontsize{16pt}{\baselineskip}
+  \normalfont\heiti{目~~~~录}
   \vspace{-8pt}
 }
 \titlecontents{chapter}[0pt]{\songti \zihao{-4}}
-{\contentslabel{2.5em}}{}
+{\thecontentslabel\hspace{\ccwd}}{}
 {\hspace{.5em}\titlerule*{.}\contentspage}
-\titlecontents{section}[2em]{\songti \zihao{-4}}
-{\contentslabel{3.5em}}{}
+\titlecontents{section}[1\ccwd]{\songti \zihao{-4}}
+{\thecontentslabel\hspace{\ccwd}}{}
 {\hspace{.5em}\titlerule*{.}\contentspage}
-\titlecontents{subsection}[4em]{\songti \zihao{-4}}
-{\contentslabel{4.5em}}{}
+\titlecontents{subsection}[2\ccwd]{\songti \zihao{-4}}
+{\thecontentslabel\hspace{\ccwd}}{}
 {\hspace{.5em}\titlerule*{.}\contentspage}
 
 \renewcommand{\frontmatter}{

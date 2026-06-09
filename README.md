@@ -68,7 +68,7 @@ latexmk -pdfxe main.tex
 | `Reference.bib` | 参考文献数据，需要按论文内容修改                            |
 | `chapters`      | 正文章节、摘要、致谢、附录等内容，主要修改区域              |
 | `Images`        | 论文图片目录                                                |
-| `paperCode`     | 论文相关代码                                                |
+| `papperCode`    | 论文相关代码                                              |
 | `fonts`         | 字体文件，包含华文宋体（STSong）、华文楷体（STKaiti）和黑体 |
 | `InitFile`      | 封面、Logo 等初始化资源，通常不用修改                       |
 | `misc`          | 封面、原创性声明、参考文献等特殊页面，通常不用修改          |
