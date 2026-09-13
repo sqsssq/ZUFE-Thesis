@@ -1,4 +1,4 @@
-<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.0.1-blue">&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey"></div>
+<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.2.0-blue">&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
 
 # ZUFE-Thesis
 
@@ -60,7 +60,7 @@ latexmk -pdfxe main.tex
 
 如果你是第一次听说或接触 $\LaTeX$，不过已经准备好完整的 Word 版本的论文内容，也正在使用或刚好对 AI agents、Skills 等相关工具感兴趣，那么也可以趁此机会一起尝试一下。
 
-推荐使用由我们另一位未来校友（周欣雷，目前大三）开发的 [Skills工具](https://github.com/SeraphinaGlacia/ZUFE-Thesis-Skill) 。该工具初衷“让 $\LaTeX$ 的好处先发生”，可以帮助你将 Word 文档中的内容（可以是未完全排版的）直接转换为 $\LaTeX$ 项目，并输出PDF成品，以惬意的方式体验 $\LaTeX$ 在文档排版中的专业性。
+推荐使用由我们另一位未来校友（周欣雷，目前大四）开发的 [Skills工具](https://github.com/SeraphinaGlacia/ZUFE-Thesis-Skill) 。该工具初衷“让 $\LaTeX$ 的好处先发生”，可以帮助你将 Word 文档中的内容（可以是未完全排版的）直接转换为 $\LaTeX$ 项目，并输出PDF成品，以惬意的方式体验 $\LaTeX$ 在文档排版中的专业性。
 
 ## PDF 元数据
 
