@@ -2,6 +2,13 @@
 
 如有问题，请在 Issue 中提出，或发送邮件至 cwf818@gmail.com。
 
+## 20260913
+
+1. 封面、Logo 等资源按学位类型归档，为后续扩展硕士、博士模板做准备：
+   - 初始化资源迁移至 `InitFile/bachelor/`（原 `InitFile/schoolLogo.png`、`InitFile/anonyLogo.png`）；
+   - 封面、原创性声明页迁移至 `misc/bachelor/`（原 `misc/cover.tex`、`misc/originality.tex`，后者更名为 `statement.tex`）。
+2. 本次仅调整目录结构，本科模板的功能与使用方式不变。
+
 ## 20260519
 
 1. 删除文件 `chapters/abstract.tex`、`InitFile/schoolName.png`，合并原 `schoolName` 和 `schoolLogo` 为一个文件，简化封面设计。

@@ -139,9 +139,9 @@
 \ifanony
   \renewcommand{\schoolName}{XX大学}
 \fi
-\newcommand{\schoolLogoPath}{InitFile/schoolLogo.png}
+\newcommand{\schoolLogoPath}{InitFile/bachelor/schoolLogo.png}
 \ifanony
-  \renewcommand{\schoolLogoPath}{InitFile/anonyLogo.png}
+  \renewcommand{\schoolLogoPath}{InitFile/bachelor/anonyLogo.png}
 \fi
 
 \fancypagestyle{ZUFEThesis}{
