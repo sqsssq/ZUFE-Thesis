@@ -14,6 +14,7 @@
 6. `reportStyle` 收窄为**本科专用**：仅在 `bachelor` 下定义并生效；页眉、封面、声明页与致谢的包含逻辑改由类文件按学位类型统一编排，不再全局引用 `reportStyle`。
 7. 资产按学位类型分目录：`InitFile/bachelor|master|doctor/`、`misc/bachelor|master|doctor/`；`misc/abstract.tex`、`misc/reference.tex` 为各学位共用。
 8. `chapters/basicinfo.tex` 新增 `\TodayEN`，用于英文扉页的完成日期。
+9. 新增 `\lishu`（隶书）命令：优先使用系统隶书（`LiSu` / `隶书`），系统未安装时自动回退为模板自带黑体；硕士/博士封面的「硕士/博士学位论文」使用该字体。
 
 ## 20260519
 

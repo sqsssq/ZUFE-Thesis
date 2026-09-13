@@ -132,6 +132,18 @@
 \setCJKfamilyfont{mystkaiti}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stkaiti}
 \newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
 
+% 隶书：优先使用系统隶书（LiSu / 隶书），系统未安装时回退为模板自带黑体
+% 注：ctex 在部分字体集下已定义 \lishu，故用 \providecommand + \renewcommand 覆盖
+\IfFontExistsTF{LiSu}
+  {\setCJKfamilyfont{lishu}[AutoFakeBold,AutoFakeSlant]{LiSu}}
+  {%
+    \IfFontExistsTF{隶书}
+      {\setCJKfamilyfont{lishu}[AutoFakeBold,AutoFakeSlant]{隶书}}
+      {\setCJKfamilyfont{lishu}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{simhei}}%
+  }
+\providecommand{\lishu}{}
+\renewcommand{\lishu}{\CJKfamily{lishu}}
+
 \pdfstringdefDisableCommands{%
   \def\textcolor#1#2{#2}%
   \def\underline#1{#1}%
@@ -139,6 +151,7 @@
   \def\mystsong{}%
   \def\mystkaiti{}%
   \def\xihei{}%
+  \def\lishu{}%
 }
 
 \newcommand{\schoolName}{浙江财经大学}
