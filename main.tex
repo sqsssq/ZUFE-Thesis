@@ -2,6 +2,9 @@
 % @LastEditTime: 2026/05/19
 
 \documentclass[bachelor]{zufe}
+% 学位类型：bachelor（默认，本科）、master（硕士）、doctor（博士）
+% 硕士：\documentclass[master]{zufe}
+% 博士：\documentclass[doctor]{zufe}
 % 需要匿名版本使用下述命令
 % \documentclass[bachelor,anony]{zufe}
 \addbibresource{Reference.bib}
@@ -20,13 +23,15 @@
 % 文档开始
 \begin{document}
 
-% 封面，没有特殊情况不需要修改
-\input{misc/bachelor/cover}
+% 封面（按学位类型自动选择），没有特殊情况不需要修改
+\zufeMakeCover
 
-% 原创性声明，没有特殊情况不需要修改
-\ifnum\reportStyle=0  
-  \input{misc/bachelor/statement}
-\fi
+% 声明/授权页（按学位类型自动选择）
+% 本科专业实践报告（reportStyle!=0）不含此页，没有特殊情况不需要修改
+\zufeMakeStatement
+
+% 中英文扉页（仅硕士/博士），没有特殊情况不需要修改
+\zufeMakeTitlePages
 
 % 前置页面定义
 \frontmatter
@@ -52,8 +57,12 @@
 % 正文
 \input{chapters/mainbody}
 
-\ifnum\reportStyle=0  
-  % 致谢：根据自身要求，修改致谢的Tex文件
+% 致谢：根据自身要求，修改致谢的Tex文件
+% 本科专业实践报告（reportStyle!=0）不含此页
+\ifzufeIncludeAcknowledgement
   \input{chapters/acknowledgement}
 \fi
+
+% 封底（仅硕士/博士），没有特殊情况不需要修改
+\zufeMakeBackCover
 \end{document}

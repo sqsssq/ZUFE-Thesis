@@ -1,0 +1,53 @@
+% 封面（硕士/博士）
+% 无特殊要求，不需要修改
+% XelaTeX 编译
+
+\begin{titlepage}
+  \thispagestyle{empty}
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0pt}
+  \vspace*{-6mm}
+
+  % 右上角：学校代码 / 密级
+  \noindent\makebox[\textwidth][r]{{\mystkaiti\bfseries\zihao{4}学校代码：\hspace{0.5em}\schoolCode}\hspace{12mm}}\par
+  \vspace{6mm}
+  \noindent\makebox[\textwidth][r]{{\mystkaiti\bfseries\zihao{4}密\hspace{2\ccwd}级：}\hspace{34mm}}\par
+
+  \vspace{14mm}
+
+  % 校徽 + 校名
+  \begin{center}
+    \includegraphics[height=20mm]{\schoolEmblemPath}%
+    \hspace{9mm}%
+    \ifzufeShowNameImage\includegraphics[width=79mm]{\schoolNameImagePath}\fi
+  \end{center}
+
+  \vspace{11mm}
+  \begin{center}
+    {\bfseries\zihao{4}\schoolNameEN}
+  \end{center}
+
+  \vspace{10mm}
+  \begin{center}
+    {\xihei\bfseries\fontsize{30pt}{34pt}\selectfont\zufeDegreeName 学位论文}
+  \end{center}
+
+  \vspace{4mm}
+  \begin{center}
+    {\bfseries\zihao{4}\zufeThesisLabelEN}
+  \end{center}
+
+  \vspace{23mm}
+
+  % 论文信息字段
+  \begin{center}
+    \begin{tabular}{@{}l@{}}
+      \zufeCoverField{论文题目}{\thesisTitle}\\[10mm]
+      \zufeCoverField{作者姓名}{\ifanony 匿名\else \yourName\fi}\\[10mm]
+      \zufeCoverField{专\hspace{2\ccwd}业}{\majorName}\\[10mm]
+      \zufeCoverField{所在学院}{\deptName}\\[10mm]
+      \zufeCoverField{指导教师}{\ifanony 匿名\else \mentorName\fi}\\[10mm]
+      \zufeCoverField{完成日期}{\Today}
+    \end{tabular}
+  \end{center}
+\end{titlepage}

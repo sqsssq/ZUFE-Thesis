@@ -5,9 +5,11 @@
 \ProvidesClass{zufe}
     [2020/02/07 v1.0 ZUFE Thesis Proposal class]
 
-\newif\if@bit@bachelor
-\newif\if@bit@master
-\newif\if@bit@doctor
+% 学位类型（本科 / 硕士 / 博士），三者互斥，默认为本科
+\newif\ifzufeBachelor
+\newif\ifzufeMaster
+\newif\ifzufeDoctor
+\newif\ifzufe@degreeselected
 \newif\ifanony
 \newif\ifzufe@provenance
 \zufe@provenancetrue
@@ -39,13 +41,17 @@
 % 字号----------------------------------------------------------------
 
 
-\DeclareOption{bachelor}{\@bit@bachelortrue}
+\DeclareOption{bachelor}{\zufe@degreeselectedtrue\zufeBachelortrue\zufeMasterfalse\zufeDoctorfalse}
+\DeclareOption{master}{\zufe@degreeselectedtrue\zufeMastertrue\zufeBachelorfalse\zufeDoctorfalse}
+\DeclareOption{doctor}{\zufe@degreeselectedtrue\zufeDoctortrue\zufeBachelorfalse\zufeMasterfalse}
 \DeclareOption{anony}{\anonytrue}
 \DeclareOption{noprovenance}{\zufe@provenancefalse}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
-\ExecuteOptions{bachelor}
 
 \ProcessOptions\relax
+
+% 未显式指定学位类型时默认为本科
+\ifzufe@degreeselected\else\zufeBachelortrue\fi
 
 
 \LoadClass[UTF8,zihao=-4,oneside,openany]{ctexbook}
@@ -136,13 +142,65 @@
 }
 
 \newcommand{\schoolName}{浙江财经大学}
+\newcommand{\schoolNameEN}{ZHEJIANG UNIVERSITY OF FINANCE AND ECONOMICS}
+\newcommand{\schoolCode}{11482}
 \ifanony
   \renewcommand{\schoolName}{XX大学}
+  \renewcommand{\schoolNameEN}{XX UNIVERSITY}
 \fi
-\newcommand{\schoolLogoPath}{InitFile/bachelor/schoolLogo.png}
+
+% 学位类型对应的资源目录与称谓
+\newcommand{\zufeDegreeDir}{bachelor}
+\newcommand{\zufeDegreeName}{本科}
+\newcommand{\zufeThesisLabelEN}{}
+\ifzufeMaster
+  \renewcommand{\zufeDegreeDir}{master}
+  \renewcommand{\zufeDegreeName}{硕士}
+  \renewcommand{\zufeThesisLabelEN}{MASTER\ \ THESIS}
+\fi
+\ifzufeDoctor
+  \renewcommand{\zufeDegreeDir}{doctor}
+  \renewcommand{\zufeDegreeName}{博士}
+  \renewcommand{\zufeThesisLabelEN}{DOCTORAL\ THESIS}
+\fi
+
+% 学位类型对应的图片资源目录
+\newcommand{\zufeLogoDir}{InitFile/bachelor}
+\ifzufeMaster\renewcommand{\zufeLogoDir}{InitFile/master}\fi
+\ifzufeDoctor\renewcommand{\zufeLogoDir}{InitFile/doctor}\fi
+
+% 本科封面使用「校徽+校名」合并图
+\newcommand{\schoolLogoPath}{\zufeLogoDir/schoolLogo.png}
+% 硕士/博士封面使用独立的校徽与校名书法图
+\newcommand{\schoolEmblemPath}{\zufeLogoDir/emblem.png}
+\newcommand{\schoolNameImagePath}{\zufeLogoDir/schoolName.png}
+% 匿名时是否显示校名书法图
+\newif\ifzufeShowNameImage
+\zufeShowNameImagetrue
+
+\ifzufeBachelor
+  \renewcommand{\schoolEmblemPath}{\schoolLogoPath}
+\fi
 \ifanony
-  \renewcommand{\schoolLogoPath}{InitFile/bachelor/anonyLogo.png}
+  \ifzufeBachelor
+    \renewcommand{\schoolLogoPath}{\zufeLogoDir/anonyLogo.png}
+    \renewcommand{\schoolEmblemPath}{\schoolLogoPath}
+  \else
+    \renewcommand{\schoolEmblemPath}{\zufeLogoDir/anonyEmblem.png}
+    \zufeShowNameImagefalse
+  \fi
 \fi
+
+% 封面字段下划线（本科、硕士、博士封面共用）
+\newcommand\dunderline[3][-1pt]{{%
+  \setbox0=\hbox{#3}
+  \ooalign{\copy0\cr\rule[\dimexpr#1-#2\relax]{\wd0}{#2}}}}
+
+% 学位论文封面字段：黑体标签 + 楷体下划线取值（硕士/博士封面共用）
+\newcommand{\zufeCoverField}[2]{%
+  \makebox[26mm][l]{\xihei\bfseries\zihao{3}#1}%
+  \underline{\parbox[b]{84mm}{\centering\mystkaiti\zihao{3}#2}}%
+}
 
 \fancypagestyle{ZUFEThesis}{
   % 页眉高度
@@ -152,10 +210,14 @@
 
   \fancyhf{}
   % 定义页眉、页码
-  \ifnum\reportStyle=0
-    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{\schoolName 本科生毕业论文（设计）}}
+  \ifzufeBachelor
+    \ifnum\reportStyle=0
+      \fancyhead[C]{\xiaowu\ziju{0.08}\songti{\schoolName 本科生毕业论文（设计）}}
+    \else
+      \fancyhead[C]{\xiaowu\ziju{0.08}\songti{\schoolName 本科生专业实践报告（专业实践{\reportStyle}）}}
+    \fi
   \else
-    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{\schoolName 本科生专业实践报告（专业实践{\reportStyle}）}}
+    \fancyhead[C]{\xiaowu\ziju{0.08}\songti{\schoolName\zufeDegreeName 学位论文}}
   \fi
   \fancyfoot[C]{\songti\zihao{5} \thepage}
   % 页眉分割线稍微粗一些
@@ -248,6 +310,46 @@
   \addcontentsline{toc}{chapter}{#1}
   \setcounter{section}{0}
 }
+
+% 学位相关的页面编排入口（供 main.tex 调用，使 main.tex 与学位类型无关）---------
+% 封面：按学位类型选择 misc/<degree>/cover.tex
+\newcommand{\zufeMakeCover}{\input{misc/\zufeDegreeDir/cover}}
+
+% 声明/授权页：本科仅在毕业论文（reportStyle=0）时输出，其余学位均输出
+\newcommand{\zufeMakeStatement}{%
+  \ifzufeBachelor
+    \ifnum\reportStyle=0 \input{misc/bachelor/statement}\fi
+  \else
+    \input{misc/\zufeDegreeDir/statement}%
+  \fi}
+
+% 中英文扉页：仅硕士/博士
+\newcommand{\zufeMakeTitlePages}{%
+  \ifzufeBachelor\else
+    \input{misc/\zufeDegreeDir/titlepage_cn}%
+    \input{misc/\zufeDegreeDir/titlepage_en}%
+  \fi}
+
+% 封底：仅硕士/博士
+\newcommand{\zufeMakeBackCover}{%
+  \ifzufeBachelor\else
+    \input{misc/\zufeDegreeDir/backcover}%
+  \fi}
+
+% 是否输出致谢：本科专业实践报告（reportStyle!=0）不输出，其余均输出
+\newif\ifzufeIncludeAcknowledgement
+\AtBeginDocument{%
+  \ifzufeBachelor
+    \ifnum\reportStyle=0
+      \zufeIncludeAcknowledgementtrue
+    \else
+      \zufeIncludeAcknowledgementfalse
+    \fi
+  \else
+    \zufeIncludeAcknowledgementtrue
+  \fi
+}
+% 学位相关的页面编排入口--------------------------------------------------------------
 
 
 

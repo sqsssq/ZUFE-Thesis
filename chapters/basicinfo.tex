@@ -1,6 +1,12 @@
 % 基本信息--------------------------------------------------------------------------------
-% 指定论文类型0:毕业论文  1/2:专业实践1/2
-\newcommand{\reportStyle}{0} 
+% 学位类型在 main.tex 的 \documentclass[...]{zufe} 中指定：
+%   bachelor（默认，本科毕业论文/专业实践报告）、master（硕士）、doctor（博士）
+
+% 【仅本科生效】指定论文类型 0:毕业论文  1/2:专业实践1/2
+% 硕士、博士模板不使用该变量，无需填写
+\ifzufeBachelor
+  \newcommand{\reportStyle}{0}
+\fi
 
 % 在这里填写你的论文中文题目
 \newcommand{\thesisTitle}{海岛环境对武学宗师成长的影响机理}
@@ -21,13 +27,18 @@
 \newcommand{\thesisSubTitleEN}{Research Based on Taohua island martial arts school}
 
 % 在这里填写你的相关信息
+% 本科封面用到：作者姓名、学号、指导教师、所在学院、专业名称、班级
+% 硕士/博士封面用到：作者姓名、专业、所在学院、指导教师
 \newcommand{\deptName}{信息技术与人工智能学院}
 \newcommand{\majorName}{软件工程}
 \newcommand{\yourName}{xx}
 \newcommand{\yourStudentID}{xxxxxxxxxxxx}
 \newcommand{\mentorName}{xxx}
 \newcommand{\className}{xxx}
+% 完成日期（中文）：用于封面、中文扉页
 \newcommand{\Today}{20xx年6月}
+% 完成日期（英文）：用于英文扉页
+\newcommand{\TodayEN}{June 20xx}
 % 基本信息--------------------------------------------------------------------------------
 
 % 中英文摘要与关键词

@@ -8,6 +8,12 @@
    - 初始化资源迁移至 `InitFile/bachelor/`（原 `InitFile/schoolLogo.png`、`InitFile/anonyLogo.png`）；
    - 封面、原创性声明页迁移至 `misc/bachelor/`（原 `misc/cover.tex`、`misc/originality.tex`，后者更名为 `statement.tex`）。
 2. 本次仅调整目录结构，本科模板的功能与使用方式不变。
+3. 新增**学位类型**支持：在 `main.tex` 中通过 `\documentclass[bachelor|master|doctor]{zufe}` 指定，默认为 `bachelor`。
+4. 新增**硕士**论文模板：封面、原创性声明及使用授权书、中英文扉页、封底（依据学校硕士论文封面封底、声明、中英文扉页范例）。
+5. 新增**博士**论文模板占位：封面、声明页、中英文扉页、封底及图片资源暂按硕士模板提供，仅替换为博士称谓（博士 / DOCTORAL），后续可继续完善。
+6. `reportStyle` 收窄为**本科专用**：仅在 `bachelor` 下定义并生效；页眉、封面、声明页与致谢的包含逻辑改由类文件按学位类型统一编排，不再全局引用 `reportStyle`。
+7. 资产按学位类型分目录：`InitFile/bachelor|master|doctor/`、`misc/bachelor|master|doctor/`；`misc/abstract.tex`、`misc/reference.tex` 为各学位共用。
+8. `chapters/basicinfo.tex` 新增 `\TodayEN`，用于英文扉页的完成日期。
 
 ## 20260519
 

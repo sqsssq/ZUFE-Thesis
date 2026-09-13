@@ -2,7 +2,21 @@
 
 # ZUFE-Thesis
 
-浙江财经大学本科生毕业论文（设计） $\LaTeX$ 模板，基于最新 Word 模板修订。使用本模板时，**仅 `Reference.bib` 文件和 `chapters` 目录**下内容需要由用户修改，其他文件无特殊要求不用修改。
+浙江财经大学本科 / 硕士 / 博士学位论文 $\LaTeX$ 模板，基于最新 Word 模板修订。使用本模板时，**仅 `Reference.bib` 文件和 `chapters` 目录**下内容需要由用户修改，其他文件无特殊要求不用修改。
+
+学位类型通过 `main.tex` 的 `\documentclass` 选项指定，默认为本科：
+
+```tex
+\documentclass[bachelor]{zufe}   % 本科（默认）
+\documentclass[master]{zufe}     % 硕士
+\documentclass[doctor]{zufe}     % 博士（暂以硕士资源占位）
+```
+
+本科模板支持毕业论文与专业实践报告（由 `chapters/basicinfo.tex` 中的 `reportStyle` 控制），该变量**仅在本科下有效**；硕士、博士模板不使用 `reportStyle`。
+
+匿名（盲审）版本可追加 `anony` 选项，例如 `\documentclass[master,anony]{zufe}`。
+
+> 说明：硕士模板已依据学校硕士论文封面、声明、中英文扉页、封底范例实现；博士模板暂按硕士模板提供占位资源，仅替换称谓（博士 / DOCTORAL），后续可按博士规范继续完善。
 
 本模板原作者石青，是软件工程专业 2022 届毕业生。
 
@@ -70,9 +84,9 @@ latexmk -pdfxe main.tex
 | `Images`        | 论文图片目录                                                |
 | `papperCode`    | 论文相关代码                                              |
 | `fonts`         | 字体文件，包含华文宋体（STSong）、华文楷体（STKaiti）和黑体 |
-| `InitFile`      | 封面、Logo 等初始化资源，通常不用修改                       |
-| `misc`          | 封面、原创性声明、参考文献等特殊页面，通常不用修改          |
-| `docs`          | 学校指导手册等说明文档                                      |
+| `InitFile`      | 封面、Logo 等初始化资源，按学位类型分目录（`bachelor/`、`master/`、`doctor/`），通常不用修改 |
+| `misc`          | 封面、声明页、摘要、参考文献等特殊页面；`bachelor/`、`master/`、`doctor/` 存放各学位专属页面，`abstract.tex`、`reference.tex` 为各学位共用，通常不用修改 |
+| `docs`          | 学校指导手册、论文格式范例等说明文档                        |
 | `LICENSE`       | 开源许可证                                                  |
 
 注意：
