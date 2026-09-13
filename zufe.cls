@@ -132,15 +132,31 @@
 \setCJKfamilyfont{mystkaiti}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stkaiti}
 \newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
 
-% 隶书：优先使用系统隶书（LiSu / 隶书），系统未安装时回退为模板自带黑体
-% 注：ctex 在部分字体集下已定义 \lishu，故用 \providecommand + \renewcommand 覆盖
-\IfFontExistsTF{LiSu}
-  {\setCJKfamilyfont{lishu}[AutoFakeBold,AutoFakeSlant]{LiSu}}
-  {%
-    \IfFontExistsTF{隶书}
-      {\setCJKfamilyfont{lishu}[AutoFakeBold,AutoFakeSlant]{隶书}}
-      {\setCJKfamilyfont{lishu}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{simhei}}%
-  }
+% 隶书：按平台依次探测候选字体，全部不可用时回退为模板自带黑体。
+% 候选顺序 Windows(LiSu) -> 通用中文名(隶书) -> 华文隶书(STLiti/华文隶书)
+% -> macOS(Baoli SC，ctex 的 macnew 字体集使用的隶书)。
+% 注：ctex 在部分字体集（如 windows、macnew）下已定义 \lishu，其字体族名为 zhli，
+% 与本模板使用的族名 lishu 不冲突；此处用 \providecommand + \renewcommand 覆盖命令本身，
+% 目的是为其补上 AutoFakeBold（否则 \lishu\bfseries 会被静默忽略）。
+\def\zufe@lishufont{}
+\IfFontExistsTF{LiSu}{\def\zufe@lishufont{LiSu}}{}
+\ifx\zufe@lishufont\@empty
+  \IfFontExistsTF{隶书}{\def\zufe@lishufont{隶书}}{}
+\fi
+\ifx\zufe@lishufont\@empty
+  \IfFontExistsTF{STLiti}{\def\zufe@lishufont{STLiti}}{}
+\fi
+\ifx\zufe@lishufont\@empty
+  \IfFontExistsTF{华文隶书}{\def\zufe@lishufont{华文隶书}}{}
+\fi
+\ifx\zufe@lishufont\@empty
+  \IfFontExistsTF{Baoli SC}{\def\zufe@lishufont{Baoli SC}}{}
+\fi
+\ifx\zufe@lishufont\@empty
+  \setCJKfamilyfont{lishu}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{simhei}
+\else
+  \setCJKfamilyfont{lishu}[AutoFakeBold,AutoFakeSlant]{\zufe@lishufont}
+\fi
 \providecommand{\lishu}{}
 \renewcommand{\lishu}{\CJKfamily{lishu}}
 
