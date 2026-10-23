@@ -2,7 +2,56 @@
 
 如有问题，请在 Issue 中提出，或发送邮件至 cwf818@gmail.com。
 
-## 20260913
+## 版本对应关系
+
+本文件按日期分节记录改动，与 Git 标签 / GitHub Release 的对应关系如下：
+
+| 版本 | 发布日期 | 对应分节 |
+| --- | --- | --- |
+| [v1.2.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.0)（当前稳定版） | 2026-09-13 | 20240601 ~ 20260913 |
+| [v1.1.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.1.0) | 2022-03-26 | ——（本文件自 20240601 起记录，此前的改动无分项记录） |
+| [v1.0.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.0.0) | 2022-02-09 | —— |
+
+> 20240601 至 20260913 之间未单独打标签，这些改动均随 v1.2.0 一并发布。
+
+## v1.2.0（2026-09-13）
+
+### 兼容性说明（从 v1.1.0 升级）
+
+v1.2.0 对项目结构做了较大调整，**目录与文件名有破坏性变更**。若你的论文工程基于 v1.1.0，或你维护依赖本模板目录结构的下游工具，请按下表迁移：
+
+| v1.1.0 | v1.2.0 | 说明 |
+| --- | --- | --- |
+| `main.tex` 内联全部元数据 | `chapters/basicinfo.tex` | 题目、副标题（`\haveSub`）、作者信息、摘要、关键词、`\Today` 均移入此文件；`\TodayEN` 为新增 |
+| `misc/0_cover.tex` | `misc/bachelor/cover.tex` | 改由 `\zufeMakeCover` 按学位类型调用 |
+| `misc/1_originality.tex` | `misc/bachelor/statement.tex` | 改由 `\zufeMakeStatement` 调用；文件已更名 |
+| `misc/2_contents.tex` | —— | 目录设置内联到 `main.tex`（`\tableofcontents`） |
+| `misc/3_introduction.tex` | `chapters/1_introduction.tex` | 移入 `chapters/` |
+| `misc/4_conclusion.tex` | `chapters/4_conclusion.tex` | 移入 `chapters/` |
+| `misc/5_reference.tex` | `chapters/5_reference_sample.tex` | 改为「参考文献格式示例」章节 |
+| `misc/5_simple_reference.tex` | `misc/reference.tex` | 由简化版参考文献页重写而来 |
+| `misc/6_appendix.tex` | `chapters/appendix.tex` | 移入 `chapters/` |
+| `misc/7_acknowledgement.tex` | `chapters/acknowledgement.tex` | 移入 `chapters/` |
+| `chapters/abstract.tex` | `misc/abstract.tex` + `chapters/basicinfo.tex` | 摘要**排版**在 `misc/abstract.tex`，摘要与关键词**内容**改由 `basicinfo.tex` 的 `\abstractCN`、`\keywordsCN`、`\abstractEN`、`\keywordsEN` 提供 |
+| `chapters/chapter_sample.tex` | `chapters/2_chapter_sample1.tex` | 改名 |
+| `chapters/chapter_1.tex` | `chapters/3_chapter_sample2.tex` | 改名 |
+| —— | `chapters/mainbody.tex` | 新增：正文章节的编排入口，新增章节在此 `\input` |
+| `InitFile/schoolLogo.png` | `InitFile/bachelor/schoolLogo.png` | 按学位类型归档 |
+| 根目录 `simhei.ttf`、`stkaiti.ttf`、`stsong.ttf` | `fonts/` 下同名文件 | 字体目录化，`zufe.cls` 中以 `Path=fonts/` 加载；须在**仓库根目录**编译 |
+| `STXIHEI.TTF`、`kaiti_GB2312.ttf` | —— | 已删除，相应命令改用 `\mystkaiti`、`\mystsong` |
+| 根目录指导手册 `.doc` | `docs/` | 归档 |
+| —— | `latexmkrc` | 新增：`latexmk -pdfxe main.tex` |
+| `dtx-style.sty`、`.history/` | —— | 删除 |
+
+命令层面的变化：
+
+- `\kaitigb`（v1.1.0 的中文摘要字体命令）已移除，改用 `\mystkaiti`；宋体生僻字用 `\mystsong`。
+- 新增 `\lishu`（隶书），系统无隶书时自动回退黑体。
+- 参考文献改用 `gb7714-2015` 样式，字号（小四）与行距（1.53）同步调整，**排版结果会与 v1.1.0 不同**。
+- `\documentclass[...]{zufe}` 新增 `master` / `doctor` / `anony` / `noprovenance` 选项，默认仍为 `bachelor`；旧的 `\documentclass[bachelor]{zufe}` 写法保持有效。
+- `reportStyle` 为**新增**变量（v1.1.0 无此变量），且仅在本科下有效。
+
+### 20260913
 
 1. 封面、Logo 等资源按学位类型归档，为后续扩展硕士、博士模板做准备：
    - 初始化资源迁移至 `InitFile/bachelor/`（原 `InitFile/schoolLogo.png`、`InitFile/anonyLogo.png`）；

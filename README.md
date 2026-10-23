@@ -1,4 +1,4 @@
-<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<img src="https://img.shields.io/badge/version-1.2.0-blue">&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
+<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-1.2.0-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
 
 # ZUFE-Thesis
 
@@ -31,6 +31,23 @@
 </div>
 
 ## 快速开始
+
+### 获取模板
+
+推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v1.2.0`**，附件说明如下：
+
+| 附件 | 说明 |
+| --- | --- |
+| `ZUFE-Thesis-1.2.0.zip` | 完整模板（含字体），解压后在根目录编译即可 |
+| `ZUFE-Thesis-1.2.0.pdf` | 该版本的编译结果预览，供对照格式使用 |
+
+也可以直接克隆仓库（对应 `main` 分支的最新提交，可能包含未发布的改动）：
+
+```bash
+git clone https://github.com/sqsssq/ZUFE-Thesis.git
+```
+
+各版本引入的改动与兼容性说明见 [CHANGELOG.md](CHANGELOG.md)；从 v1.1.0 升级请先阅读其中的迁移对照表。
 
 ### 环境要求
 
@@ -132,4 +149,7 @@ latexmk -pdfxe main.tex
 
 ## 更新历史
 
-详见 [CHANGELOG.md](CHANGELOG.md)。
+当前稳定版为 **v1.2.0**，发布于 2026-09-13。
+
+- 各版本的改动说明：[GitHub Releases](https://github.com/sqsssq/ZUFE-Thesis/releases)
+- 按日期记录的详细改动、版本对应关系及 v1.1.0 升级迁移表：[CHANGELOG.md](CHANGELOG.md)
