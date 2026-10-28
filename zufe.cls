@@ -44,7 +44,9 @@
 \DeclareOption{bachelor}{\zufe@degreeselectedtrue\zufeBachelortrue\zufeMasterfalse\zufeDoctorfalse}
 \DeclareOption{master}{\zufe@degreeselectedtrue\zufeMastertrue\zufeBachelorfalse\zufeDoctorfalse}
 \DeclareOption{doctor}{\zufe@degreeselectedtrue\zufeDoctortrue\zufeBachelorfalse\zufeMasterfalse}
-\DeclareOption{anony}{\anonytrue}
+% 匿名版本同时关闭模板 provenance：默认元数据含 “ZUFE” 与
+% “Zhejiang University of Finance and Economics”，会暴露学校信息
+\DeclareOption{anony}{\anonytrue\zufe@provenancefalse}
 \DeclareOption{noprovenance}{\zufe@provenancefalse}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 
@@ -80,7 +82,7 @@
 }
 
 \newcommand{\zufeTemplateName}{ZUFE-Thesis}
-\newcommand{\zufeTemplateVersion}{1.2.1}
+\newcommand{\zufeTemplateVersion}{1.2.2}
 \newcommand{\zufeTemplateSignature}{ZUFE-Thesis LaTeX Template v\zufeTemplateVersion}
 
 \AtBeginDocument{%
@@ -173,9 +175,12 @@
 \newcommand{\schoolName}{浙江财经大学}
 \newcommand{\schoolNameEN}{ZHEJIANG UNIVERSITY OF FINANCE AND ECONOMICS}
 \newcommand{\schoolCode}{11482}
+% 匿名（盲审）版本：凡是能识别出学校的信息都替换为占位符。
+% 个人信息的隐藏由各封面自行处理（姓名、学号、导师、学院、专业、班级）。
 \ifanony
   \renewcommand{\schoolName}{XX大学}
   \renewcommand{\schoolNameEN}{XX UNIVERSITY}
+  \renewcommand{\schoolCode}{XXXXX}
 \fi
 
 % 学位类型对应的资源目录与称谓
@@ -359,23 +364,31 @@
     \input{misc/\zufeDegreeDir/titlepage_en}%
   \fi}
 
-% 封底：仅硕士/博士
+% 封底：仅硕士/博士，且匿名（盲审）版本不输出
+% 封底整页为校名与联系方式，匿名时无法脱敏，直接不生成该页
 \newcommand{\zufeMakeBackCover}{%
-  \ifzufeBachelor\else
-    \input{misc/\zufeDegreeDir/backcover}%
+  \ifanony\else
+    \ifzufeBachelor\else
+      \input{misc/\zufeDegreeDir/backcover}%
+    \fi
   \fi}
 
-% 是否输出致谢：本科专业实践报告（reportStyle!=0）不输出，其余均输出
+% 是否输出致谢：本科专业实践报告（reportStyle!=0）与匿名（盲审）版本不输出，其余均输出
+% 致谢普遍包含导师、同门与课题组信息，盲审版按惯例隐去
 \newif\ifzufeIncludeAcknowledgement
 \AtBeginDocument{%
-  \ifzufeBachelor
-    \ifnum\reportStyle=0
-      \zufeIncludeAcknowledgementtrue
-    \else
-      \zufeIncludeAcknowledgementfalse
-    \fi
+  \ifanony
+    \zufeIncludeAcknowledgementfalse
   \else
-    \zufeIncludeAcknowledgementtrue
+    \ifzufeBachelor
+      \ifnum\reportStyle=0
+        \zufeIncludeAcknowledgementtrue
+      \else
+        \zufeIncludeAcknowledgementfalse
+      \fi
+    \else
+      \zufeIncludeAcknowledgementtrue
+    \fi
   \fi
 }
 % 学位相关的页面编排入口--------------------------------------------------------------

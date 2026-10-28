@@ -1,4 +1,4 @@
-<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-1.2.1-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
+<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-1.2.2-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
 
 # ZUFE-Thesis
 
@@ -14,7 +14,17 @@
 
 本科模板支持毕业论文与专业实践报告（由 `chapters/basicinfo.tex` 中的 `reportStyle` 控制），该变量**仅在本科下有效**；硕士、博士模板不使用 `reportStyle`。
 
-匿名（盲审）版本可追加 `anony` 选项，例如 `\documentclass[master,anony]{zufe}`。
+匿名（盲审）版本可追加 `anony` 选项，例如 `\documentclass[master,anony]{zufe}`。该选项会一并处理以下内容，无需再手动组合 `noprovenance` 或删页：
+
+- 校徽、中英文校名、学校代码替换为匿名占位（`XX大学` / `XX UNIVERSITY` / `XXXXX`）
+- 本科封面的姓名、学号、指导教师、学院、专业、班级，硕士/博士封面的姓名、指导教师、专业、学院，均显示为“匿名”
+- 硕士/博士封底整页不输出（该页为校名与联系方式，无法脱敏）
+- 致谢页不输出（致谢通常包含导师、同门与课题组信息）
+- PDF 元数据不再写入 `ZUFE-Thesis` 与学校英文全称（等价于同时指定 `noprovenance`）
+
+匿名只作用于模板生成的页面。正文、摘要、附录中出现的学校、导师、基金项目、致谢对象等信息仍需作者自行检查；`misc/abstract.tex` 的摘要题目取自 `chapters/basicinfo.tex`，如题目本身含可识别信息也需一并调整。
+
+> 关于专业与学院：这两项此前在匿名版本中保留，理由是学科方向属于评审需要的信息。由于学校尚未就盲审版封面给出统一规定，各学院要求也不一致，模板统一按“隐去可识别信息”处理。若所在学院明确要求保留，可在 `misc/<degree>/cover.tex` 中去掉对应字段的 `\ifanony` 分支。
 
 > 说明：硕士模板已依据学校硕士论文封面、声明、中英文扉页、封底范例实现；博士模板暂按硕士模板提供占位资源，仅替换称谓（博士 / DOCTORAL），后续可按博士规范继续完善。
 
@@ -34,12 +44,12 @@
 
 ### 获取模板
 
-推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v1.2.1`**，附件说明如下：
+推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v1.2.2`**，附件说明如下：
 
 | 附件 | 说明 |
 | --- | --- |
-| `ZUFE-Thesis-1.2.1.zip` | 完整模板（含字体），解压后在根目录编译即可 |
-| `ZUFE-Thesis-1.2.1.pdf` | 该版本的编译结果预览，供对照格式使用 |
+| `ZUFE-Thesis-1.2.2.zip` | 完整模板（含字体），解压后在根目录编译即可 |
+| `ZUFE-Thesis-1.2.2.pdf` | 该版本的编译结果预览，供对照格式使用 |
 
 也可以直接克隆仓库（对应 `main` 分支的最新提交，可能包含未发布的改动）：
 
@@ -88,6 +98,8 @@ latexmk -pdfxe main.tex
 ```tex
 \documentclass[bachelor,noprovenance]{zufe}
 ```
+
+`anony` 选项已隐含 `noprovenance`：匿名版本默认不写入上述元数据。
 
 ## 文件解释
 
@@ -149,7 +161,7 @@ latexmk -pdfxe main.tex
 
 ## 更新历史
 
-当前稳定版为 **v1.2.1**，发布于 2026-10-23（修订版，模板功能与 v1.2.0 相同）。
+当前稳定版为 **v1.2.2**，发布于 2026-10-28。本次收紧 `anony`（匿名/盲审）的处理边界，**匿名版本的输出与页数会变化**，非匿名版本不受影响，详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.2) 与 [CHANGELOG.md](CHANGELOG.md)。
 
 - 各版本的改动说明：[GitHub Releases](https://github.com/sqsssq/ZUFE-Thesis/releases)
 - 按日期记录的详细改动、版本对应关系及 v1.1.0 升级迁移表：[CHANGELOG.md](CHANGELOG.md)

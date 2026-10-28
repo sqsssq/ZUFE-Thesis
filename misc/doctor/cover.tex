@@ -8,7 +8,7 @@
   \setlength{\parskip}{0pt}
   \vspace*{-6mm}
 
-  % 右上角：学校代码 / 密级
+  % 右上角：学校代码 / 密级（匿名时学校代码以占位符等宽替换）
   \noindent\makebox[\textwidth][r]{{\mystkaiti\bfseries\zihao{4}学校代码：\hspace{0.5em}\schoolCode}\hspace{12mm}}\par
   \vspace{6mm}
   \noindent\makebox[\textwidth][r]{{\mystkaiti\bfseries\zihao{4}密\hspace{2\ccwd}级：\hspace{0.5em}\phantom{\schoolCode}}\hspace{12mm}}\par
@@ -44,8 +44,8 @@
     \begin{tabular}{@{}l@{}}
       \zufeCoverField{论文题目}{\thesisTitle}\\[10mm]
       \zufeCoverField{作者姓名}{\ifanony 匿名\else \yourName\fi}\\[10mm]
-      \zufeCoverField{专\hspace{2\ccwd}业}{\majorName}\\[10mm]
-      \zufeCoverField{所在学院}{\deptName}\\[10mm]
+      \zufeCoverField{专\hspace{2\ccwd}业}{\ifanony 匿名\else \majorName\fi}\\[10mm]
+      \zufeCoverField{所在学院}{\ifanony 匿名\else \deptName\fi}\\[10mm]
       \zufeCoverField{指导教师}{\ifanony 匿名\else \mentorName\fi}\\[10mm]
       \zufeCoverField{完成日期}{\Today}
     \end{tabular}
