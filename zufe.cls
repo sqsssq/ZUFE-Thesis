@@ -361,6 +361,9 @@
   \renewcommand{\thefigure}{\thechapter\arabic{figure}}%
   \renewcommand{\thetable}{\thechapter\arabic{table}}%
   \renewcommand{\theequation}{\thechapter\arabic{equation}}%
+  % 结论、致谢用 \ctexset{section/number = \arabic{section}} 改写的是全局格式，
+  % 若不在附录入口恢复，附录小节会显示为 1、2，与其子节的 A.1.1 不一致。
+  \ctexset{section={number={\thechapter.\hspace{4bp}\arabic{section}}}}%
   \setcounter{section}{0}%
   \setcounter{figure}{0}%
   \setcounter{table}{0}%
