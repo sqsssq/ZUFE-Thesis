@@ -336,13 +336,38 @@
 \hyphenpenalty=10000
 \hbadness=10000
 
-\renewcommand{\theequation}{\arabic{chapter}-\arabic{equation}}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 \newcommand{\unnumchapter}[1]{
   \chapter*{\vskip 10bp\textmd{#1} \vskip -6bp}
   \phantomsection
   \addcontentsline{toc}{chapter}{#1}
   \setcounter{section}{0}
+}
+
+% 附录入口：让附录中的图、表、公式改用字母编号，与正文分开另行编号。
+% \unnumchapter 用 \chapter*，不推进 chapter 也不复位计数器；若拿它当附录入口，
+% 图、表、公式会继续沿用正文的编号（issue #8）。因此附录需要专用入口，
+% 参考文献、致谢、结论等仍用 \unnumchapter。附录序号用独立计数器，与正文的
+% chapter 计数无关：无论正文有几章，第一个附录都是 A。
+% 编号规则（依据本科指导手册「正文中的编号」1.7 节）：
+%   附录标题：附录A、附录B……
+%   图、表：  A1、B2……（字母与数字之间不分隔）
+%   公式：    A1、B2……（与图、表一致，与正文的 "章.序号" 不同）
+\newcounter{zufe@appendix}
+\newcommand{\zufeAppendix}[1]{%
+  \stepcounter{zufe@appendix}%            附录序号 A、B、C……
+  \renewcommand{\thechapter}{\Alph{zufe@appendix}}%
+  \renewcommand{\thefigure}{\thechapter\arabic{figure}}%
+  \renewcommand{\thetable}{\thechapter\arabic{table}}%
+  \renewcommand{\theequation}{\thechapter\arabic{equation}}%
+  \setcounter{section}{0}%
+  \setcounter{figure}{0}%
+  \setcounter{table}{0}%
+  \setcounter{equation}{0}%
+  \chapter*{\vskip 10bp\textmd{附录\thechapter~~~~#1} \vskip -6bp}%
+  \phantomsection
+  \addcontentsline{toc}{chapter}{附录\thechapter~~~~#1}%
 }
 
 % 学位相关的页面编排入口（供 main.tex 调用，使 main.tex 与学位类型无关）---------

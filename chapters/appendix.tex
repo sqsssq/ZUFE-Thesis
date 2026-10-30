@@ -1,10 +1,10 @@
 % 附录
 
-\unnumchapter{附录A~~~~附录内容的名称}
-% % 设置附录编号格式
-% \ctexset{
-%   section/number = 附录\Alph{section}
-% }
+% \zufeAppendix 会自动把章节编号切换为字母，并复位图、表、公式计数器，
+% 因此附录中的编号为：图 A1、表 A1、公式 (A1)，与正文分开另行编号。
+% 多个附录依次调用即可：\zufeAppendix{附录内容的名称} → 附录A、附录B……
+% 不写附录时，把 chapters/mainbody.tex 中引入本文件的 \input 注释掉。
+\zufeAppendix{附录内容的名称}
 
 % 附录相关内容…
 

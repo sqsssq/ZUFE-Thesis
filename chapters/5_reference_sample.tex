@@ -1,8 +1,10 @@
 % 参考文献
 % 参考文献开始
 
+% 注意：不要在这里改写 \thechapter。它直接影响 \thefigure 与 \thetable 的编号，
+% 会让其后附录中的图、表编号变成这里的中文标题（issue #8）。
+% \unnumchapter 已经负责输出标题，无需改动 \thechapter。
 \unnumchapter{参考文献格式示例}
-\renewcommand{\thechapter}{参考文献格式示例}
 
 % 设置参考文献字号为 5 号
 \renewcommand*{\bibfont}{\zihao{5}}
