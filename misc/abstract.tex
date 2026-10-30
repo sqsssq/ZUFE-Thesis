@@ -1,4 +1,8 @@
 % 中英文摘要章节
+% 本科：中英文摘要排在摘要页内，中文在前、英文在后（本科指导手册「论文装订顺序」要求同页）；
+% 硕士/博士：中文、英文摘要各自另起一页。
+% 前置部分的罗马页码由 main.tex 的 \frontmatter 统一初始化并连续编号，此处不再重置，
+% 否则中文摘要跨页时页码会倒退出现重复的 I（issue #7）。
 \zihao{-4}
 \vspace*{-10mm}
 
@@ -18,7 +22,6 @@
 % 加入目录
 \phantomsection
 \addcontentsline{toc}{chapter}{摘~~~~要}
-\setcounter{page}{1}
 
 \vspace*{-12mm}
 \setstretch{1.53}
@@ -33,7 +36,14 @@
 {\mystkaiti{\keywordsCN}}
 
 % 英文摘要章节
-\vspace*{15mm}
+% 硕士/博士：英文摘要另起一页，页首留出与中文摘要页一致的上边距；
+% 本科：与中文摘要同页、英文在后（见文件开头说明）
+\ifzufeBachelor
+  \vspace*{15mm}
+\else
+  \newpage
+  \vspace*{-2.5mm}
+\fi
 
 \begin{spacing}{0.95}
   \centering
@@ -51,7 +61,6 @@
 {\let\clearpage\relax \chapter*{\zihao{-3}\textmd{}\vskip -3bp}}
 \phantomsection
 \addcontentsline{toc}{chapter}{Abstract}
-\setcounter{page}{1}
 
 \setstretch{1.53}
 \setlength{\parskip}{0em}
