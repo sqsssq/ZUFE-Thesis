@@ -82,7 +82,7 @@
 }
 
 \newcommand{\zufeTemplateName}{ZUFE-Thesis}
-\newcommand{\zufeTemplateVersion}{1.2.2}
+\newcommand{\zufeTemplateVersion}{1.2.3}
 \newcommand{\zufeTemplateSignature}{ZUFE-Thesis LaTeX Template v\zufeTemplateVersion}
 
 \AtBeginDocument{%
