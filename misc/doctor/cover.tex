@@ -37,12 +37,18 @@
     {\bfseries\zihao{4}\zufeThesisLabelEN}
   \end{center}
 
-  \vspace{23mm}
-
   % 论文信息字段
+  % 无副标题时留白固定 23mm，排版与之前完全一致；
+  % 有副标题时该留白可压缩，多出的行数由这里吸收，字段块整体上移而不是溢到第二页
+  \ifhaveSubTitle
+    \vspace{23mm plus 0pt minus 16mm}%
+  \else
+    \vspace{23mm}%
+  \fi
   \begin{center}
     \begin{tabular}{@{}l@{}}
-      \zufeCoverField{论文题目}{\thesisTitle}\\[10mm]
+      % 题目与副标题之间不换行：parbox 内换行会成为换行符，多出一行空白
+      \zufeCoverTitleField{论文题目}{\thesisTitle\ifhaveSubTitle\zufeCoverSubField{\thesisSubTitle}\fi}\\[10mm]
       \zufeCoverField{作者姓名}{\ifanony 匿名\else \yourName\fi}\\[10mm]
       \zufeCoverField{专\hspace{2\ccwd}业}{\ifanony 匿名\else \majorName\fi}\\[10mm]
       \zufeCoverField{所在学院}{\ifanony 匿名\else \deptName\fi}\\[10mm]

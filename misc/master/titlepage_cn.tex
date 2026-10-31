@@ -13,10 +13,13 @@
 
 \vspace{30mm}
 
-% 中文题目
+% 中文题目（有副标题时，副标题在主标题下方另起一行）
 \begin{center}
   \begin{spacing}{1.2}
     {\xihei\zihao{-1}\thesisTitle}
+    \ifhaveSubTitle
+      \par\vspace{4mm}{\xihei\zihao{3}-----\thesisSubTitle}
+    \fi
   \end{spacing}
 \end{center}
 

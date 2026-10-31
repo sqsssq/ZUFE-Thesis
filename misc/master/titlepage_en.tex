@@ -13,10 +13,13 @@
 
 \vspace{39mm}
 
-% 英文题目
+% 英文题目（有副标题时，副标题在主标题下方另起一行）
 \begin{center}
   \begin{spacing}{1.2}
     {\bfseries\zihao{-1}\thesisTitleEN}
+    \ifhaveSubTitle
+      \par\vspace{4mm}{\bfseries\zihao{3}-----\thesisSubTitleEN}
+    \fi
   \end{spacing}
 \end{center}
 

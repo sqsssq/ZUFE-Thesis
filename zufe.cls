@@ -236,6 +236,50 @@
   \underline{\parbox[b]{84mm}{\centering\mystkaiti\zihao{3}#2}}%
 }
 
+% 论文题目一栏：封面题目统一走多行版本，
+% 使题目自动换行与用 \\ 手动断行走同一个行距，便于按版面手动选择断点。
+\newcommand{\zufeCoverTitleField}[2]{%
+  \zufeCoverMultiField{#1}{#2}%
+}
+
+% 封面题目的行距：原为 3 号字行距 25.05pt，这里压到近一半的 14pt。
+% 主标题无论自动换行还是用 \\ 手动断行，走的都是这个行距，二者一致，
+% 便于按版面手动选断点；再小（如 12.5pt）则末行深度不足，下划线会切到字脚。
+\newlength{\zufe@titlebaseline}
+\setlength{\zufe@titlebaseline}{14pt}
+
+% 多行封面字段：下划线画在整个取值块的下方，标签相对取值块垂直居中。
+% 不用 \underline：它只在盒子首行的基线上取线，多行 parbox 会把线画在中间。
+\newbox\zufe@coverfieldbox
+\newbox\zufe@coverlabelbox
+\newcommand{\zufeCoverMultiField}[2]{%
+  % 行距紧贴字高时，TeX 按 baselineskip 推出的末行深度偏小，下划线会切到末行字形；
+  % 这里把末行深度补到该字号的自然深度，再多留 2pt 与内容隔开
+  \setbox\zufe@coverfieldbox\hbox{\parbox[b]{84mm}{\centering
+    \mystkaiti\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2
+    \par\kern\dimexpr\fontdimen5\font-\prevdepth+2pt\relax}}%
+  \setbox\zufe@coverlabelbox\hbox{\xihei\bfseries\zihao{3}#1}%
+  % 抬高量按两盒子的垂直中心差计算；[0pt][0pt] 让标签不参与行高，
+  % 字段行高始终由取值块决定
+  \makebox[26mm][l]{\raisebox{0.5\dimexpr\ht\zufe@coverfieldbox-\dp\zufe@coverfieldbox
+    -\ht\zufe@coverlabelbox+\dp\zufe@coverlabelbox\relax}[0pt][0pt]%
+    {\box\zufe@coverlabelbox}}%
+  \rlap{\raisebox{\dimexpr-\dp\zufe@coverfieldbox\relax}{\rule{\wd\zufe@coverfieldbox}{0.4pt}}}%
+  \box\zufe@coverfieldbox
+}
+
+% 封面字段内的副标题行：楷体小四，破折号前缀。
+% 五个连字符经 TeX 连字展开为「——」，与本科封面、摘要页的副标题前缀一致。
+% 副标题与末行主标题的基线距离取 \zufe@titlebaseline，与主标题自身换行的行距一致：
+% 先排副标题，再按「目标基线距 - 末行主标题深度 - 副标题行高」补足竖向间距。
+\newbox\zufe@subtitlebox
+\newcommand{\zufeCoverSubField}[1]{%
+  \par
+  \setbox\zufe@subtitlebox\hbox{\mystkaiti\zihao{-4}-----#1}%
+  \vspace{\dimexpr\zufe@titlebaseline-\prevdepth-\ht\zufe@subtitlebox\relax}%
+  \centerline{\box\zufe@subtitlebox}%
+}
+
 \fancypagestyle{ZUFEThesis}{
   % 页眉高度
   \setlength{\headheight}{20pt}
