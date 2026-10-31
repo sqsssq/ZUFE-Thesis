@@ -13,7 +13,7 @@
   \vspace{6mm}
   \noindent\makebox[\textwidth][r]{{\mystkaiti\bfseries\zihao{4}密\hspace{2\ccwd}级：\hspace{0.5em}\phantom{\schoolCode}}\hspace{12mm}}\par
 
-  \vspace{14mm}
+  \vspace{8mm}
 
   % 校徽 + 校名
   \begin{center}
@@ -22,29 +22,26 @@
     \ifzufeShowNameImage\includegraphics[width=79mm]{\schoolNameImagePath}\fi
   \end{center}
 
-  \vspace{11mm}
+  \vspace{7mm}
   \begin{center}
     {\bfseries\zihao{4}\schoolNameEN}
   \end{center}
 
-  \vspace{10mm}
+  \vspace{6mm}
   \begin{center}
     {\lishu\bfseries\fontsize{30pt}{34pt}\selectfont\zufeDegreeName 学位论文}
   \end{center}
 
-  \vspace{4mm}
+  \vspace{3mm}
   \begin{center}
     {\bfseries\zihao{4}\zufeThesisLabelEN}
   \end{center}
 
   % 论文信息字段
-  % 无副标题时留白固定 23mm，排版与之前完全一致；
-  % 有副标题时该留白可压缩，多出的行数由这里吸收，字段块整体上移而不是溢到第二页
-  \ifhaveSubTitle
-    \vspace{23mm plus 0pt minus 16mm}%
-  \else
-    \vspace{23mm}%
-  \fi
+  % 这里到上方标题的留白可压缩（23mm，最多压掉 22mm）：题目多占的行数由它吸收，
+  % 字段块整体上移而不是把「完成日期」挤到第二页。有、无副标题都走同一分支——
+  % 无副标题时题目换行同样会溢出，此前只有有副标题时才能压缩。
+  \vspace{23mm plus 0pt minus 22mm}%
   \begin{center}
     \begin{tabular}{@{}l@{}}
       % 题目与副标题之间不换行：parbox 内换行会成为换行符，多出一行空白

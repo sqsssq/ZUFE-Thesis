@@ -248,24 +248,34 @@
 \newlength{\zufe@titlebaseline}
 \setlength{\zufe@titlebaseline}{14pt}
 
-% 多行封面字段：下划线画在整个取值块的下方，标签相对取值块垂直居中。
-% 不用 \underline：它只在盒子首行的基线上取线，多行 parbox 会把线画在中间。
+% 多行封面字段：取值可换行，标签相对整个取值块垂直居中，下划线贴末行文字。
+% 下划线交给 \underline 处理——它与 \zufeCoverField 用的是同一条规则，
+% 于是两类字段的下划线到文字距离一致（实测单行 0.63mm、多行 0.76mm）。
+% 早期版本自己用 \rule 画线，并为多行补了 2pt 余量，结果题目栏的下划线比其它字段
+% 低 2.29mm，单行题目时尤其明显；改用 \underline 后该差异消失。
 \newbox\zufe@coverfieldbox
 \newbox\zufe@coverlabelbox
+
+% 标签基线的附加偏移。\underline 会在取值块下方额外占一条线的高度，
+% 使取值块整体视觉重心偏下；若只按两盒子中心差抬高标签，题目栏的
+% 「标签相对取值」会比普通字段低约 1.7mm（普通字段实测 -0.30mm，题目栏 -1.99mm）。
+% 这里再从抬高量中减去 4.5pt，把两者的相对位置拉平（实测 -0.25mm）。
+\newlength{\zufe@coverlabelshift}
+\setlength{\zufe@coverlabelshift}{4.5pt}
+
 \newcommand{\zufeCoverMultiField}[2]{%
-  % 行距紧贴字高时，TeX 按 baselineskip 推出的末行深度偏小，下划线会切到末行字形；
-  % 这里把末行深度补到该字号的自然深度，再多留 2pt 与内容隔开
-  \setbox\zufe@coverfieldbox\hbox{\parbox[b]{84mm}{\centering
-    \mystkaiti\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2
-    \par\kern\dimexpr\fontdimen5\font-\prevdepth+2pt\relax}}%
-  \setbox\zufe@coverlabelbox\hbox{\xihei\bfseries\zihao{3}#1}%
-  % 抬高量按两盒子的垂直中心差计算；[0pt][0pt] 让标签不参与行高，
-  % 字段行高始终由取值块决定
-  \makebox[26mm][l]{\raisebox{0.5\dimexpr\ht\zufe@coverfieldbox-\dp\zufe@coverfieldbox
-    -\ht\zufe@coverlabelbox+\dp\zufe@coverlabelbox\relax}[0pt][0pt]%
+  % 先量取值块尺寸，用于计算标签的抬高量
+  \setbox\zufe@coverfieldbox=\hbox{\parbox[b]{84mm}{\centering
+    \mystkaiti\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2}}%
+  \setbox\zufe@coverlabelbox=\hbox{\xihei\bfseries\zihao{3}#1}%
+  % 抬高量按两盒子的垂直中心差计算，再减去 \zufe@coverlabelshift；
+  % [0pt][0pt] 让标签不参与行高，字段行高始终由取值块决定
+  \makebox[26mm][l]{\raisebox{\dimexpr 0.5\dimexpr\ht\zufe@coverfieldbox
+    -\dp\zufe@coverfieldbox-\ht\zufe@coverlabelbox+\dp\zufe@coverlabelbox\relax
+    -\zufe@coverlabelshift\relax}[0pt][0pt]%
     {\box\zufe@coverlabelbox}}%
-  \rlap{\raisebox{\dimexpr-\dp\zufe@coverfieldbox\relax}{\rule{\wd\zufe@coverfieldbox}{0.4pt}}}%
-  \box\zufe@coverfieldbox
+  \underline{\parbox[b]{84mm}{\centering
+    \mystkaiti\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2}}%
 }
 
 % 封面字段内的副标题行：楷体小四，破折号前缀。

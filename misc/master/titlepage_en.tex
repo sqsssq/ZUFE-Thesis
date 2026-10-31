@@ -14,11 +14,13 @@
 \vspace{39mm}
 
 % 英文题目（有副标题时，副标题在主标题下方另起一行）
+% 主标题行距用 1.45：\zihao{-1} 为 24bp 的粗体字母，1.2 倍行距（34.7pt）
+% 只比字面高约 2.7pt，两行会几乎贴在一起；1.45 倍约 42pt，行间空隙接近正文观感。
 \begin{center}
-  \begin{spacing}{1.2}
-    {\bfseries\zihao{-1}\thesisTitleEN}
+  \begin{spacing}{1.45}
+    {\bfseries\zihao{-1}\thesisTitleEN}%
     \ifhaveSubTitle
-      \par\vspace{4mm}{\bfseries\zihao{3}-----\thesisSubTitleEN}
+      \par\vspace{4mm}{\bfseries\zihao{3}-----\thesisSubTitleEN}%
     \fi
   \end{spacing}
 \end{center}
