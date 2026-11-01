@@ -8,11 +8,11 @@
 
    模板改为按顺序解析每个字体，命中即用：
 
-   1. `fonts/` 下用户自备的字体文件（文件名与旧版一致：`simhei`、`stsong`、`stkaiti`，扩展名 `.ttf/.TTF/.otf/.OTF` 均可）；
+   1. `fonts/` 下用户自备的字体文件（按命令名命名，扩展名 `.ttf/.TTF/.otf/.OTF/.ttc/.TTC` 均可，详见第 4 条）；
    2. 本机系统字体（`SimHei`/`STXihei`、`STSong`/`SimSun`、`STKaiti`/`KaiTi`、`LiSu`/`STLiti`/`Baoli SC`）；
    3. ctex 默认中文字体。
 
-   命中第 1、2 步时输出与 v1.2.3 **逐字节一致**（在 Windows 上实测两条路径生成的 `main.pdf` MD5 相同）。落到第 3 步时仍可编译，但字形与学校范例有差异，且 Fandol 不含生僻字，`\mystsong`、`\mystkaiti` 的生僻字能力会失效——此时编译日志会给出 `Class zufe Warning` 指明是哪一种字体回退、有何影响。
+   命中第 1、2 步时输出与 v1.2.3 **逐字节一致**（在 Windows 上实测两条路径生成的 `main.pdf` MD5 相同）。落到第 3 步时仍可编译，但字形与学校范例有差异，且 Fandol 不含生僻字——此时五个命令各给一条 `Class zufe Warning`，指明缺哪一种字体、影响如何。
 
    `\lishu` 在无系统隶书时改为回退到 `\heiti`（而非此前写死的 `fonts/simhei.ttf`），因此缺少字体文件时不会连带失效。
 
@@ -35,9 +35,22 @@
    - `\songti`、`\heiti`、`\kaishu`、`\fangsong` 与 `\bfseries` 连用时**现在会真正加粗**（合成加粗）。此前这几个命令加 `\bfseries` 几乎没有效果——ctex 的 `BoldFont` 映射只作用于正文主字体，不作用于这些显式字体族。因此论文中已有的 `{\songti\bfseries ...}` 一类写法输出会变粗，属于本次改动带来的效果变化。
    - `\bfseries`、`\itshape` 的模拟方式由「换字体」改为「合成描边/倾斜」，字形会有细微差别。
    - `\xihei` 已移除，与 `\heiti` 完全重复；请改用 `\heiti`。
-   - `\mystsong`、`\mystkaiti` 的载入方式不变。
 
-4. `chapters/1_introduction.tex` 增补五种字体的常规/加粗对照示例，并把该章扩为两页（此前内容处于一页与两页之间的临界状态）。
+4. **移除 `\mystsong`、`\mystkaiti`**：这两个命令的存在理由是旧版中 ctex 的 `\songti`、`\kaishu` 落到不含生僻字的 Fandol，需要另开一条华文宋体/华文楷体的路子。第 3 条让五个命令直接用上系统字体后，生僻字已由 `\songti`、`\kaishu` 自身负责，两个专用命令成为冗余，故删除，由 `\songti`、`\kaishu` 取代。
+
+   **迁移：** `{\mystsong{垚瑄}}` → `{\songti{垚瑄}}`，`{\mystkaiti{…}}` → `{\kaishu{…}}`。模板自身的封面、摘要、图表标题等页面已同步替换，输出仅因字体来源不同。论文正文中若用过这两个命令，需自行替换，否则编译报 `Undefined control sequence`。
+
+   **自备字体的文件名随之改为按命令名命名**：`songti`、`heiti`、`kaishu`（也接受 `kaiti`）、`fangsong`、`lishu`，扩展名不限 `.ttf/.TTF/.otf/.OTF/.ttc/.TTC`。此前的 `simsun`、`simhei`、`simkai`、`simfang`、`simli`、`stsong`、`stkaiti` 一律不再识别。改名是因为 `sim*` 有歧义——把华文宋体改名成 `simsun.ttf` 会让人误以为是中易宋体，而按命令命名时文件名只表示「这个字体供哪条命令使用」，与字体本体无关。
+
+   **`fonts/README.md` 同步修正了一处错误推荐**：旧版称华文宋体/华文楷体（STSong/STKaiti）的生僻字覆盖「通常比 SimSun、KaiTi 更全」，实测恰好相反。按 cmap 统计，STSong、STKaiti、LiSu 的扩展 A 区（U+3400–4DBF）覆盖为 **0**，SimHei/KaiTi/FangSong 为 6582，SimSun 为 6592；基本区则六者相当（20902，SimSun 20992）。实测编译含「垚瑄䶮」的文档，用 `simsun.ttc`/`simkai.ttf` 只缺扩展 B 区的「𠀀」，用 STSong/STKaiti 则「䶮」也缺。现改为推荐中易（`sim*`）那一套。
+
+   同时 `\zufe@uselocalfont` 增加 `.ttc`/`.TTC` 扩展名支持（原只认 `.ttf/.TTF/.otf/.OTF`）。`.ttc` 是字体集合，`C:\Windows\Fonts` 里的 `simsun.ttc` 正是这种格式，原先必须改扩展名才能用。实测 `Extension=.ttc` 可直接加载，XeTeX 取集合中第一个字族——`simsun.ttc` 的第一个正是 SimSun，整本模板编译 0 错误、0 警告。可用 `FontIndex` 指定其它字族，但模板不提供该选项：索引 0 对 `simsun.ttc` 已正确，其它 `.ttc` 需用户自行确认，`fonts/README.md` 已注明。
+
+   **探测失败时五个命令各给一条 `Class zufe Warning`**，指明缺哪一种字体、应自备哪个文件名。`\lishu` 无系统隶书时仍回退为黑体。
+
+5. `fonts/README.md` 收敛为一条规则：**某个字体命令不渲染生僻字时，把支持生僻字的字体文件放进 `fonts/` 并按上表改名**，不再区分「常规字体」与「生僻字专用字体」两套目录结构。
+
+6. `chapters/1_introduction.tex` 增补五种字体的常规/加粗对照示例，并把该章扩为两页（此前内容处于一页与两页之间的临界状态）；生僻字一节改为按新流程叙述。
 
 ## v1.2.4（2026-11-01）
 

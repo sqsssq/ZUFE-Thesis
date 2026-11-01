@@ -123,35 +123,46 @@
   {\setmainfont{TeX Gyre Termes}}
 
 % 中文字体解析------------------------------------------------------------------
-% 华文宋体（STSong）、华文楷体（STKaiti）、黑体（SimHei）均为商业字体，随 Windows /
-% Office 授权使用，但**不含再分发授权**，因此本模板不再随仓库分发这三个字体文件。
-% 各字体按以下顺序解析，任一命中即可正常编译：
-%   1. fonts/ 目录下用户自备的字体文件（已被 .gitignore 排除，仅在本机生效）
+% \songti、\heiti、\kaishu、\fangsong、\lishu 五个命令（外加正文主字体）按同一
+% 顺序解析，任一命中即可正常编译：
+%   1. fonts/ 目录下用户自备的字体文件（已被 .gitignore 排除，仅在本机生效），
+%      文件名按命令约定：songti、heiti、kaishu、fangsong、lishu，扩展名
+%      .ttf/.TTF/.otf/.OTF；\kaishu 也接受旧习惯的 kaiti 作文件名
 %   2. 本机系统字体（Windows 随系统安装、macOS 自带等）
-%   3. ctex 默认中文字体（TeX 发行版自带，通常为 Fandol 或系统字体）
-% 命中 1、2 时与旧版输出一致；落到 3 时仍可编译，但字体形态略有差异，
-% 且 Fandol 不含生僻字，\mystsong / \mystkaiti 的生僻字能力随之失效（日志会给出警告）。
-% 自备字体的文件名见 fonts/README.md。
+%   3. ctex 默认中文字体（TeX 发行版自带，通常为 Fandol）
+% 命中 1、2 时字体含生僻字；落到 3 时仍可编译，但 Fandol 不含生僻字、字形也与
+% 学校范例略有差异，此时每个未命中的命令各给一条 ClassWarning。用法见
+% fonts/README.md。
 %
-% 除 \mystsong / \mystkaiti 外，ctex 的 \songti、\heiti、\kaishu、\fangsong 也按同一
-% 顺序解析：探测命中就把该命令重定向到模板自己的字体族（带 AutoFakeBold），
+% 这些字体（中易宋体/黑体/楷体/仿宋/隶书、华文宋体/楷体等）均随 Windows / Office
+% 授权使用，但**不含再分发授权**，因此本模板不随仓库分发任何字体文件。
+%
+% 探测命中就把该命令重定向到模板自己的字体族（带 AutoFakeBold），
 % 未命中则**保持 ctex 的原定义不动**，因此不会比不处理更差。
 \def\zufe@fontdir{fonts/}
 \newif\ifzufe@fontresolved
 
-% \zufe@uselocalfont{<族名>}{<基名>}：fonts/<基名>.{ttf,TTF,otf,OTF} 存在则用该文件
-% 命中时与 \zufe@usesysfont 一样记下字体名与选项（\zufe@<族名>fontname / fontopts），
-% 否则正文主字体那条路径拿不到自备字体，裸文本仍会缺生僻字。
+% \zufe@uselocalfont{<族名>}{<基名，逗号分隔>}：fonts/<基名>.{ttf,TTF,otf,OTF,ttc,TTC}
+% 存在则用该文件。.ttc 是字体集合，XeTeX 默认取其中第一个字族——simsun.ttc 的第一个
+% 正是 SimSun，故 Windows 用户可直接把 simsun.ttc 改名成 songti.ttc 放进来。
+% 基名可以有多个，按给出的先后依次尝试，先全部扩展名试完第一个基名再试第二个。
+% \kaishu 因此写作 {kaishu,kaiti}：命令名 \kaishu 与旧习惯的 kaiti 两个文件名都认，
+% 且 kaishu 优先。命中时与 \zufe@usesysfont 一样记下字体名与选项
+% （\zufe@<族名>fontname / fontopts），否则正文主字体那条路径拿不到自备字体，
+% 裸文本仍会缺生僻字。
 \newcommand{\zufe@uselocalfont}[2]{%
   \zufe@fontresolvedfalse
-  \@for\zufe@fext:=ttf,TTF,otf,OTF\do{%
+  \@for\zufe@fbase:=#2\do{%
     \ifzufe@fontresolved\else
-      \IfFileExists{\zufe@fontdir#2.\zufe@fext}{%
-        \setCJKfamilyfont{#1}[Path=\zufe@fontdir,Extension=.\zufe@fext,AutoFakeBold,AutoFakeSlant]{#2}%
-        \expandafter\edef\csname zufe@#1fontname\endcsname{#2}%
-        \expandafter\edef\csname zufe@#1fontopts\endcsname{Path=\zufe@fontdir,Extension=.\zufe@fext,AutoFakeBold,AutoFakeSlant}%
-        \zufe@fontresolvedtrue
-      }{}%
+      \@for\zufe@fext:=ttf,TTF,otf,OTF,ttc,TTC\do{%
+        \ifzufe@fontresolved\else
+          \IfFileExists{\zufe@fontdir\zufe@fbase.\zufe@fext}{%
+            \setCJKfamilyfont{#1}[Path=\zufe@fontdir,Extension=.\zufe@fext,AutoFakeBold,AutoFakeSlant]{\zufe@fbase}%
+            \expandafter\edef\csname zufe@#1fontname\endcsname{\zufe@fbase}%
+            \expandafter\edef\csname zufe@#1fontopts\endcsname{Path=\zufe@fontdir,Extension=.\zufe@fext,AutoFakeBold,AutoFakeSlant}%
+            \zufe@fontresolvedtrue
+          }{}%
+        \fi}%
     \fi}}
 
 % \zufe@usesysfont{<族名>}{<候选字体名，逗号分隔且不写空格>}：取第一个存在的系统字体
@@ -169,51 +180,69 @@
       }{}%
     \fi}}
 
-% 宋体 / 楷体 / 仿宋 / 黑体 / 隶书：五个字体命令按同一方式解析。
+% 探测失败的提示。#1 是 fonts/ 下应使用的文件名基名，#2 是命令，#3 是字体名，
+% #4 说明该命令退到了什么。五个命令各提示一次：日志里有几条，就说明有几种字体
+% 在本机和 fonts/ 下都没找到。提示不改变任何命令定义，只告诉用户要自备什么。
+\newcommand{\zufe@fontwarn}[4]{%
+  \ClassWarningNoLine{zufe}{未探测到#3，\string#2 #4；\MessageBreak
+    该字体可能不含生僻字，如需支持请按 fonts/README.md 自备 fonts/#1.ttf}%
+}
+
+% 宋体 / 黑体 / 楷体 / 仿宋 / 隶书：五个字体命令按同一方式解析。
 % 每个命令先查 fonts/ 下的自备文件，再按「中文名 -> 英文名」依次探测系统字体；
 % 命中则以模板自己的字体族重新定义该命令，字体族名与命令同名（\songti 用族名
-% songti，\kaishu 用族名 kaiti，等等），并开启 AutoFakeBold,AutoFakeSlant，
+% songti，\kaishu 用族名 kaishu，等等），并开启 AutoFakeBold,AutoFakeSlant，
 % 因此可与 \bfseries 连用产生合成加粗。
 % 探测失败时保持 ctex 的原定义不动，不设回退——ctex 的这几个命令本来可用，
 % 不作改动即不会比现状更差；\lishu 是例外，fandol 字体集下 ctex 并未定义它，
 % 故探测失败时回退为黑体，保证命令始终可用。
 % 注：ctex 的 windows 字体集里 \bfseries 会切到黑体（BoldFont=simhei.ttf），
 % 换成自定义字体族后加粗改为 AutoFakeBold 合成，两种方式字形略有差别。
-\zufe@uselocalfont{songti}{simsun}
+\zufe@uselocalfont{songti}{songti}
 \ifzufe@fontresolved\else\zufe@usesysfont{songti}{宋体,SimSun,Songti SC}\fi
 \ifzufe@fontresolved
   \providecommand{\songti}{}
   \renewcommand{\songti}{\CJKfamily{songti}}
+\else
+  \zufe@fontwarn{songti}{\songti}{宋体}{保持 ctex 默认定义，正文主字体亦然}%
 \fi
 
-\zufe@uselocalfont{kaiti}{simkai}
-\ifzufe@fontresolved\else\zufe@usesysfont{kaiti}{楷体,KaiTi,Kaiti SC}\fi
+% \kaishu 除 fonts/kaishu.* 外也接受 fonts/kaiti.*（旧习惯的文件名），kaishu 优先。
+\zufe@uselocalfont{kaishu}{kaishu,kaiti}
+\ifzufe@fontresolved\else\zufe@usesysfont{kaishu}{楷体,KaiTi,Kaiti SC}\fi
 \ifzufe@fontresolved
   \providecommand{\kaishu}{}
-  \renewcommand{\kaishu}{\CJKfamily{kaiti}}
+  \renewcommand{\kaishu}{\CJKfamily{kaishu}}
+\else
+  \zufe@fontwarn{kaishu}{\kaishu}{楷体}{保持 ctex 默认定义}%
 \fi
 
-\zufe@uselocalfont{fangsong}{simfang}
+\zufe@uselocalfont{fangsong}{fangsong}
 \ifzufe@fontresolved\else\zufe@usesysfont{fangsong}{仿宋,FangSong,STFangsong}\fi
 \ifzufe@fontresolved
   \providecommand{\fangsong}{}
   \renewcommand{\fangsong}{\CJKfamily{fangsong}}
+\else
+  \zufe@fontwarn{fangsong}{\fangsong}{仿宋}{保持 ctex 默认定义}%
 \fi
 
-\zufe@uselocalfont{heiti}{simhei}
+\zufe@uselocalfont{heiti}{heiti}
 \ifzufe@fontresolved\else\zufe@usesysfont{heiti}{黑体,SimHei,STXihei,Heiti SC}\fi
 \ifzufe@fontresolved
   \providecommand{\heiti}{}
   \renewcommand{\heiti}{\CJKfamily{heiti}}
+\else
+  \zufe@fontwarn{heiti}{\heiti}{黑体}{保持 ctex 默认定义}%
 \fi
 
-\zufe@uselocalfont{lishu}{simli}
+\zufe@uselocalfont{lishu}{lishu}
 \ifzufe@fontresolved\else\zufe@usesysfont{lishu}{隶书,LiSu,STLiti,华文隶书,Baoli SC}\fi
 \providecommand{\lishu}{}
 \ifzufe@fontresolved
   \renewcommand{\lishu}{\CJKfamily{lishu}}
 \else
   % ctex 未提供 \lishu（如 fandol 字体集）且系统无隶书：回退为黑体。
+  \zufe@fontwarn{lishu}{\lishu}{隶书}{回退为黑体}%
   \renewcommand{\lishu}{\heiti}
 \fi
 
@@ -230,39 +259,12 @@
   \expandafter\setCJKmainfont\expandafter[\expandafter{\zufe@mainfontopts}]{\zufe@mainfont}%
 \fi
 
-%因不支持生僻字，使用mystkaiti代替
-%\setCJKfamilyfont{kaitigb}[AutoFakeBold,AutoFakeSlant]{[kaiti_GB2312.TTF]}
-%\newcommand{\kaitigb}{\CJKfamily{kaitigb}}
-
-% 宋体（生僻字）：华文宋体 STSong / 系统宋体
-\zufe@uselocalfont{mystsong}{stsong}
-\ifzufe@fontresolved\else\zufe@usesysfont{mystsong}{STSong,SimSun,Songti SC}\fi
-\ifzufe@fontresolved
-  \newcommand{\mystsong}{\CJKfamily{mystsong}}
-\else
-  \ClassWarningNoLine{zufe}{未找到 STSong / SimSun / Songti SC，\string\mystsong 回退为 ctex 默认宋体；\MessageBreak
-    该字体可能不含生僻字，如需显示生僻字请按 fonts/README.md 自备字体}%
-  \newcommand{\mystsong}{\songti}
-\fi
-
-% 楷体（生僻字）：华文楷体 STKaiti / 系统楷体
-\zufe@uselocalfont{mystkaiti}{stkaiti}
-\ifzufe@fontresolved\else\zufe@usesysfont{mystkaiti}{STKaiti,KaiTi,Kaiti SC}\fi
-\ifzufe@fontresolved
-  \newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
-\else
-  \ClassWarningNoLine{zufe}{未找到 STKaiti / KaiTi / Kaiti SC，\string\mystkaiti 回退为 ctex 默认楷体；\MessageBreak
-    该字体可能不含生僻字，如需显示生僻字请按 fonts/README.md 自备字体}%
-  \newcommand{\mystkaiti}{\kaishu}
-\fi
 % 中文字体解析------------------------------------------------------------------
 
 \pdfstringdefDisableCommands{%
   \def\textcolor#1#2{#2}%
   \def\underline#1{#1}%
   \def\ziju#1{}%
-  \def\mystsong{}%
-  \def\mystkaiti{}%
   \def\heiti{}%
   \def\lishu{}%
 }
@@ -328,7 +330,7 @@
 % 学位论文封面字段：黑体标签 + 楷体下划线取值（硕士/博士封面共用）
 \newcommand{\zufeCoverField}[2]{%
   \makebox[26mm][l]{\heiti\bfseries\zihao{3}#1}%
-  \underline{\parbox[b]{84mm}{\centering\mystkaiti\zihao{3}#2}}%
+  \underline{\parbox[b]{84mm}{\centering\kaishu\zihao{3}#2}}%
 }
 
 % 论文题目一栏：封面题目统一走多行版本，
@@ -361,7 +363,7 @@
 \newcommand{\zufeCoverMultiField}[2]{%
   % 先量取值块尺寸，用于计算标签的抬高量
   \setbox\zufe@coverfieldbox=\hbox{\parbox[b]{84mm}{\centering
-    \mystkaiti\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2}}%
+    \kaishu\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2}}%
   \setbox\zufe@coverlabelbox=\hbox{\heiti\bfseries\zihao{3}#1}%
   % 抬高量按两盒子的垂直中心差计算，再减去 \zufe@coverlabelshift；
   % [0pt][0pt] 让标签不参与行高，字段行高始终由取值块决定
@@ -370,7 +372,7 @@
     -\zufe@coverlabelshift\relax}[0pt][0pt]%
     {\box\zufe@coverlabelbox}}%
   \underline{\parbox[b]{84mm}{\centering
-    \mystkaiti\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2}}%
+    \kaishu\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2}}%
 }
 
 % 封面字段内的副标题行：楷体小四，破折号前缀。
@@ -380,7 +382,7 @@
 \newbox\zufe@subtitlebox
 \newcommand{\zufeCoverSubField}[1]{%
   \par
-  \setbox\zufe@subtitlebox\hbox{\mystkaiti\zihao{-4}-----#1}%
+  \setbox\zufe@subtitlebox\hbox{\kaishu\zihao{-4}-----#1}%
   \vspace{\dimexpr\zufe@titlebaseline-\prevdepth-\ht\zufe@subtitlebox\relax}%
   \centerline{\box\zufe@subtitlebox}%
 }
@@ -473,12 +475,12 @@
 \setlength{\belowcaptionskip}{9pt}
 
 \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
-\DeclareCaptionFont{mystkaiti}{\mystkaiti}
-\captionsetup[figure]{font=mystkaiti,labelsep=quad}
+\DeclareCaptionFont{kaishu}{\kaishu}
+\captionsetup[figure]{font=kaishu,labelsep=quad}
 
 \renewcommand{\thetable}{\thechapter.\arabic{table}}
-\DeclareCaptionFont{mystkaiti}{\mystkaiti}
-\captionsetup[table]{font={mystkaiti},labelsep=quad,skip=2pt}
+\DeclareCaptionFont{kaishu}{\kaishu}
+\captionsetup[table]{font={kaishu},labelsep=quad,skip=2pt}
 
 \tolerance=1
 \emergencystretch=\maxdimen

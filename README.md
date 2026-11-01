@@ -117,7 +117,7 @@ latexmk -pdfxe main.tex
 | `chapters`      | 正文章节、摘要、致谢、附录等内容，主要修改区域              |
 | `Images`        | 论文图片目录                                                |
 | `papperCode`    | 论文相关代码                                              |
-| `fonts`         | 自备字体目录。商业字体（SimHei、华文宋体 STSong、华文楷体 STKaiti）**不含再分发授权**，不随仓库提供；模板会优先使用本机系统字体，仅在必要时按 [`fonts/README.md`](fonts/README.md) 自备 |
+| `fonts`         | 自备字体目录，通常为空。商业字体**不含再分发授权**，不随仓库提供；模板会优先使用本机系统字体，仅当某字体命令不渲染生僻字时，才按 [`fonts/README.md`](fonts/README.md) 放入字体文件 |
 | `InitFile`      | 封面、Logo 等初始化资源，按学位类型分目录（`bachelor/`、`master/`、`doctor/`），通常不用修改 |
 | `misc`          | 封面、声明页、摘要、参考文献等特殊页面；`bachelor/`、`master/`、`doctor/` 存放各学位专属页面，`abstract.tex`、`reference.tex` 为各学位共用，通常不用修改 |
 | `docs`          | 学校指导手册、论文格式范例等说明文档                        |
@@ -134,20 +134,18 @@ latexmk -pdfxe main.tex
 
 ### 生僻字无法显示
 
-部分系统或在线平台默认宋体不支持生僻字。可使用模板提供的 `\mystsong` 命令，例如：
+模板的五个字体命令——`\songti`（含正文主字体）、`\heiti`、`\kaishu`、`\fangsong`、`\lishu`——
+都会先查 `fonts/` 目录，再探测本机系统字体（`SimSun`、`SimHei`、`KaiTi`、`FangSong`、`LiSu` 等），
+命中即用，因此**在 Windows 上通常开箱即用，生僻字可以直接正常显示**，`{\songti{垚瑄喆堃赟珺}}` 即可。
 
-```tex
-{\mystsong{垚瑄}}
-```
+若在编译日志中看到 `Class zufe Warning`，说明该字体在本机和 `fonts/` 下都没找到，
+回退到了不含生僻字的 ctex 默认字体。此时按 [`fonts/README.md`](fonts/README.md) 自备字体即可：
+把支持生僻字的字体文件放进 `fonts/` 并按命令名改名（如 `songti.ttf`、`kaishu.ttf`），
+论文源码**不用改任何一行**，模板会自动优先使用。日志里有几条警告，就是有几种字体需要自备。
 
-楷体环境默认使用华文楷体（STKaiti），对应命令为 `\mystkaiti`。
+这些字体均为**商业字体，不含再分发授权**，因此不随仓库提供，需从本机系统字体目录自行复制。
 
-这两个命令依赖华文宋体 / 华文楷体，而它们**不含再分发授权**，因此不随仓库提供。
-模板会优先使用本机系统字体，在 Windows 上通常已安装、无需额外操作；若在编译日志中看到
-`Class zufe Warning` 说明字体回退到了不含生僻字的 ctex 默认字体，请按
-[`fonts/README.md`](fonts/README.md) 自备字体。
-
-黑体命令为 `\heiti`。宋体、楷体、仿宋、黑体、隶书五个命令（`\songti`、`\kaishu`、`\fangsong`、`\heiti`、`\lishu`）都会在本机探测对应的系统字体（`SimSun`、`KaiTi`、`FangSong`、`SimHei`、`LiSu` 等），命中则使用该系统字体并支持生僻字；探测不到时保持 ctex 的默认定义，因此可安全使用。隶书在无系统隶书时回退为黑体。上述命令均可与 `\bfseries` 连用产生合成加粗效果。
+五个命令均可与 `\bfseries` 连用产生合成加粗效果；`\lishu` 在无隶书时回退为黑体。
 
 ```tex
 {\lishu{浙江财经大学}}
