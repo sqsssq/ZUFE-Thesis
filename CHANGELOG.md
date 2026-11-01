@@ -2,6 +2,43 @@
 
 如有问题，请在 Issue 中提出，或发送邮件至 cwf818@gmail.com。
 
+## 未发布
+
+1. **不再随仓库分发商业字体**：`fonts/` 下的 `simhei.ttf`、`stsong.ttf`、`stkaiti.ttf` 已从版本库移除。三者分别为中易黑体（© Beijing ZhongYi Electronics）与华文宋体/华文楷体（© Changzhou SinoType），随 Windows / Office 授权使用，但**许可条款不含再分发授权**，此前以仓库源码与 Release 附件的形式分发并不合规。
+
+   模板改为按顺序解析每个字体，命中即用：
+
+   1. `fonts/` 下用户自备的字体文件（文件名与旧版一致：`simhei`、`stsong`、`stkaiti`，扩展名 `.ttf/.TTF/.otf/.OTF` 均可）；
+   2. 本机系统字体（`SimHei`/`STXihei`、`STSong`/`SimSun`、`STKaiti`/`KaiTi`、`LiSu`/`STLiti`/`Baoli SC`）；
+   3. ctex 默认中文字体。
+
+   命中第 1、2 步时输出与 v1.2.3 **逐字节一致**（在 Windows 上实测两条路径生成的 `main.pdf` MD5 相同）。落到第 3 步时仍可编译，但字形与学校范例有差异，且 Fandol 不含生僻字，`\mystsong`、`\mystkaiti` 的生僻字能力会失效——此时编译日志会给出 `Class zufe Warning` 指明是哪一种字体回退、有何影响。
+
+   `\lishu` 在无系统隶书时改为回退到 `\heiti`（而非此前写死的 `fonts/simhei.ttf`），因此缺少字体文件时不会连带失效。
+
+   **影响：**
+   - 已有工程无需改动。`fonts/` 中若保留着这三个文件，编译行为与 v1.2.3 完全相同；删掉后由系统字体接管。
+   - 直接 `git clone` 的体积显著下降，Release 附件中的 zip 由约 25 MB 降至约 5 MB。
+   - 在 Linux 或未安装中文字体的在线平台编译，会落到第 3 步。需要学校一致的字体或生僻字支持时，按 [`fonts/README.md`](fonts/README.md) 自备字体。
+   - `.gitignore` 现已排除全部字体二进制（`*.ttf`、`*.otf`、`*.ttc` 及大写形式），避免再次误提交。
+   - **`v1.2.0`–`v1.2.3` 的 Release 附件仍含上述字体**，已发布的产物保持原样未做改动；自本版本起的附件不含字体。
+
+3. **`\songti`、`\heiti`、`\kaishu`、`\fangsong`、`\lishu` 复用同一套系统字体探测**：每个命令先查 `fonts/` 下的自备文件，再按「中文名 → 英文名」探测系统字体（`宋体`/`SimSun`、`黑体`/`SimHei`、`楷体`/`KaiTi`、`仿宋`/`FangSong`、`隶书`/`LiSu` 等）；命中则以同名族重新定义该命令并开启 `AutoFakeBold`、`AutoFakeSlant`，未命中时**保持 ctex 原定义不动**。`\lishu` 例外：`fandol` 字体集下 ctex 未定义它，故未命中时回退为黑体。
+
+   **正文主字体一并替换**：ctex 通过 `\setCJKmainfont` 装配正文主字体，这条路径不经过 `\songti`，因此仅重定义命令时，不带字体命令的正文仍会落在 ctex 选定的字体上（`fandol` 下即不含生僻字的 FandolSong），自备字体也救不了裸文本。现于 `\songti` 解析成功（无论来自 `fonts/` 还是系统字体）后，用**同一份「字体名 + 选项」**重新声明正文主字体，常规、加粗、斜体表现与显式写 `\songti` 完全一致，不再有第二套规则。
+
+   影响：正文加粗由 ctex 的「切成黑体字形」变为「宋体描边加粗」，斜体由「切成楷体字形」变为「宋体倾斜」。
+
+   目的：让这五个命令在有中文系统字体的平台上直接使用系统字体，从而显示生僻字，不必再依赖 `\mystsong`、`\mystkaiti` 自备字体。
+
+   **影响：**
+   - `\songti`、`\heiti`、`\kaishu`、`\fangsong` 与 `\bfseries` 连用时**现在会真正加粗**（合成加粗）。此前这几个命令加 `\bfseries` 几乎没有效果——ctex 的 `BoldFont` 映射只作用于正文主字体，不作用于这些显式字体族。因此论文中已有的 `{\songti\bfseries ...}` 一类写法输出会变粗，属于本次改动带来的效果变化。
+   - `\bfseries`、`\itshape` 的模拟方式由「换字体」改为「合成描边/倾斜」，字形会有细微差别。
+   - `\xihei` 已移除，与 `\heiti` 完全重复；请改用 `\heiti`。
+   - `\mystsong`、`\mystkaiti` 的载入方式不变。
+
+4. `chapters/1_introduction.tex` 增补五种字体的常规/加粗对照示例，并把该章扩为两页（此前内容处于一页与两页之间的临界状态）。
+
 ## v1.2.4（2026-11-01）
 
 1. **修复硕士/博士模板正文首行缩进丢失**：`misc/<degree>/titlepage_cn.tex`、`titlepage_en.tex` 内用 `\setlength{\parindent}{0pt}` 排自身版面，但这两个文件是裸 `\input`，没有 `titlepage` 环境那样的分组，设置一直泄漏到其后整个正文，使硕士、博士论文**所有段落的首行缩进归零**（本科封面用的是 `titlepage` 环境，自带分组，故不受影响）。
@@ -95,6 +132,7 @@
 > v1.2.2 为**有破坏性变更**的功能版本：仅影响 `anony` 版本的输出内容与页数，非匿名版本输出不变。详见该节说明。
 > v1.2.3 为**有破坏性变更**的功能版本：正文公式编号由 `2-1` 改为 `2.1`；附录需改用 `\zufeAppendix`，否则图、表、公式不会切换为字母编号；硕士/博士中英文摘要改为各占一页。详见该节说明。
 > v1.2.4 仅修复硕士/博士正文首行缩进丢失，不涉及命令或编号变更，本科论文输出不变。
+> 未发布节（下一条）不再随仓库与 Release 附件分发商业字体；`\songti` 等五个字体命令改为优先使用系统字体，与 `\bfseries` 连用时现在会真正加粗；`\xihei` 移除（改用 `\heiti`）。该节尚未打标签发布。
 
 ## v1.2.1（2026-10-23）
 

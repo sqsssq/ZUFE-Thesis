@@ -51,6 +51,11 @@
 | `ZUFE-Thesis-1.2.4.zip` | 完整模板（含字体），解压后在根目录编译即可 |
 | `ZUFE-Thesis-1.2.4.pdf` | 该版本的编译结果预览，供对照格式使用 |
 
+> **关于字体**：`v1.2.0`–`v1.2.4` 的 zip 内含商业字体（SimHei、华文宋体、华文楷体）。
+> 当前开发版起，模板不再分发这些字体——它们随 Windows / Office 授权使用，但不含再分发授权。
+> 新版在 Windows 上直接使用系统字体即可正常编译，输出与旧版一致；生僻字、Linux 与在线平台的
+> 处理方式见 [`fonts/README.md`](fonts/README.md)。
+
 也可以直接克隆仓库（对应 `main` 分支的最新提交，可能包含未发布的改动）：
 
 ```bash
@@ -112,7 +117,7 @@ latexmk -pdfxe main.tex
 | `chapters`      | 正文章节、摘要、致谢、附录等内容，主要修改区域              |
 | `Images`        | 论文图片目录                                                |
 | `papperCode`    | 论文相关代码                                              |
-| `fonts`         | 字体文件，包含华文宋体（STSong）、华文楷体（STKaiti）和黑体 |
+| `fonts`         | 自备字体目录。商业字体（SimHei、华文宋体 STSong、华文楷体 STKaiti）**不含再分发授权**，不随仓库提供；模板会优先使用本机系统字体，仅在必要时按 [`fonts/README.md`](fonts/README.md) 自备 |
 | `InitFile`      | 封面、Logo 等初始化资源，按学位类型分目录（`bachelor/`、`master/`、`doctor/`），通常不用修改 |
 | `misc`          | 封面、声明页、摘要、参考文献等特殊页面；`bachelor/`、`master/`、`doctor/` 存放各学位专属页面，`abstract.tex`、`reference.tex` 为各学位共用，通常不用修改 |
 | `docs`          | 学校指导手册、论文格式范例等说明文档                        |
@@ -135,9 +140,14 @@ latexmk -pdfxe main.tex
 {\mystsong{垚瑄}}
 ```
 
-楷体环境默认使用随模板提供的华文楷体（STKaiti），对应命令为 `\mystkaiti`。
+楷体环境默认使用华文楷体（STKaiti），对应命令为 `\mystkaiti`。
 
-黑体命令为 `\xihei`。隶书命令为 `\lishu`：按平台依次探测系统隶书（Windows 的 `LiSu`、华文隶书 `STLiti`、macOS 的 `Baoli SC` 等），均不可用时自动回退为模板自带黑体，因此可安全使用；该命令可与 `\bfseries` 连用产生合成加粗效果。
+这两个命令依赖华文宋体 / 华文楷体，而它们**不含再分发授权**，因此不随仓库提供。
+模板会优先使用本机系统字体，在 Windows 上通常已安装、无需额外操作；若在编译日志中看到
+`Class zufe Warning` 说明字体回退到了不含生僻字的 ctex 默认字体，请按
+[`fonts/README.md`](fonts/README.md) 自备字体。
+
+黑体命令为 `\heiti`。宋体、楷体、仿宋、黑体、隶书五个命令（`\songti`、`\kaishu`、`\fangsong`、`\heiti`、`\lishu`）都会在本机探测对应的系统字体（`SimSun`、`KaiTi`、`FangSong`、`SimHei`、`LiSu` 等），命中则使用该系统字体并支持生僻字；探测不到时保持 ctex 的默认定义，因此可安全使用。隶书在无系统隶书时回退为黑体。上述命令均可与 `\bfseries` 连用产生合成加粗效果。
 
 ```tex
 {\lishu{浙江财经大学}}

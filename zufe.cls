@@ -121,46 +121,141 @@
 \IfFontExistsTF{Times New Roman}
   {\setmainfont{Times New Roman}}
   {\setmainfont{TeX Gyre Termes}}
-% \setCJKfamilyfont{xihei}[AutoFakeBold,AutoFakeSlant]{[simhei.TTF]} % 若希望使用本机字体，也可以用 {STXihei} 来调用
-\setCJKfamilyfont{xihei}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{simhei}
-\newcommand{\xihei}{\CJKfamily{xihei}}
+
+% 中文字体解析------------------------------------------------------------------
+% 华文宋体（STSong）、华文楷体（STKaiti）、黑体（SimHei）均为商业字体，随 Windows /
+% Office 授权使用，但**不含再分发授权**，因此本模板不再随仓库分发这三个字体文件。
+% 各字体按以下顺序解析，任一命中即可正常编译：
+%   1. fonts/ 目录下用户自备的字体文件（已被 .gitignore 排除，仅在本机生效）
+%   2. 本机系统字体（Windows 随系统安装、macOS 自带等）
+%   3. ctex 默认中文字体（TeX 发行版自带，通常为 Fandol 或系统字体）
+% 命中 1、2 时与旧版输出一致；落到 3 时仍可编译，但字体形态略有差异，
+% 且 Fandol 不含生僻字，\mystsong / \mystkaiti 的生僻字能力随之失效（日志会给出警告）。
+% 自备字体的文件名见 fonts/README.md。
+%
+% 除 \mystsong / \mystkaiti 外，ctex 的 \songti、\heiti、\kaishu、\fangsong 也按同一
+% 顺序解析：探测命中就把该命令重定向到模板自己的字体族（带 AutoFakeBold），
+% 未命中则**保持 ctex 的原定义不动**，因此不会比不处理更差。
+\def\zufe@fontdir{fonts/}
+\newif\ifzufe@fontresolved
+
+% \zufe@uselocalfont{<族名>}{<基名>}：fonts/<基名>.{ttf,TTF,otf,OTF} 存在则用该文件
+% 命中时与 \zufe@usesysfont 一样记下字体名与选项（\zufe@<族名>fontname / fontopts），
+% 否则正文主字体那条路径拿不到自备字体，裸文本仍会缺生僻字。
+\newcommand{\zufe@uselocalfont}[2]{%
+  \zufe@fontresolvedfalse
+  \@for\zufe@fext:=ttf,TTF,otf,OTF\do{%
+    \ifzufe@fontresolved\else
+      \IfFileExists{\zufe@fontdir#2.\zufe@fext}{%
+        \setCJKfamilyfont{#1}[Path=\zufe@fontdir,Extension=.\zufe@fext,AutoFakeBold,AutoFakeSlant]{#2}%
+        \expandafter\edef\csname zufe@#1fontname\endcsname{#2}%
+        \expandafter\edef\csname zufe@#1fontopts\endcsname{Path=\zufe@fontdir,Extension=.\zufe@fext,AutoFakeBold,AutoFakeSlant}%
+        \zufe@fontresolvedtrue
+      }{}%
+    \fi}}
+
+% \zufe@usesysfont{<族名>}{<候选字体名，逗号分隔且不写空格>}：取第一个存在的系统字体
+% 命中时把字体名记入 \zufe@<族名>fontname，供后面重设正文主字体使用。
+\newcommand{\zufe@usesysfont}[2]{%
+  \zufe@fontresolvedfalse
+  \@for\zufe@fname:=#2\do{%
+    \ifzufe@fontresolved\else
+      \IfFontExistsTF{\zufe@fname}{%
+        \edef\zufe@fchosen{\zufe@fname}%
+        \setCJKfamilyfont{#1}[AutoFakeBold,AutoFakeSlant]{\zufe@fchosen}%
+        \expandafter\edef\csname zufe@#1fontname\endcsname{\zufe@fchosen}%
+        \expandafter\def\csname zufe@#1fontopts\endcsname{AutoFakeBold,AutoFakeSlant}%
+        \zufe@fontresolvedtrue
+      }{}%
+    \fi}}
+
+% 宋体 / 楷体 / 仿宋 / 黑体 / 隶书：五个字体命令按同一方式解析。
+% 每个命令先查 fonts/ 下的自备文件，再按「中文名 -> 英文名」依次探测系统字体；
+% 命中则以模板自己的字体族重新定义该命令，字体族名与命令同名（\songti 用族名
+% songti，\kaishu 用族名 kaiti，等等），并开启 AutoFakeBold,AutoFakeSlant，
+% 因此可与 \bfseries 连用产生合成加粗。
+% 探测失败时保持 ctex 的原定义不动，不设回退——ctex 的这几个命令本来可用，
+% 不作改动即不会比现状更差；\lishu 是例外，fandol 字体集下 ctex 并未定义它，
+% 故探测失败时回退为黑体，保证命令始终可用。
+% 注：ctex 的 windows 字体集里 \bfseries 会切到黑体（BoldFont=simhei.ttf），
+% 换成自定义字体族后加粗改为 AutoFakeBold 合成，两种方式字形略有差别。
+\zufe@uselocalfont{songti}{simsun}
+\ifzufe@fontresolved\else\zufe@usesysfont{songti}{宋体,SimSun,Songti SC}\fi
+\ifzufe@fontresolved
+  \providecommand{\songti}{}
+  \renewcommand{\songti}{\CJKfamily{songti}}
+\fi
+
+\zufe@uselocalfont{kaiti}{simkai}
+\ifzufe@fontresolved\else\zufe@usesysfont{kaiti}{楷体,KaiTi,Kaiti SC}\fi
+\ifzufe@fontresolved
+  \providecommand{\kaishu}{}
+  \renewcommand{\kaishu}{\CJKfamily{kaiti}}
+\fi
+
+\zufe@uselocalfont{fangsong}{simfang}
+\ifzufe@fontresolved\else\zufe@usesysfont{fangsong}{仿宋,FangSong,STFangsong}\fi
+\ifzufe@fontresolved
+  \providecommand{\fangsong}{}
+  \renewcommand{\fangsong}{\CJKfamily{fangsong}}
+\fi
+
+\zufe@uselocalfont{heiti}{simhei}
+\ifzufe@fontresolved\else\zufe@usesysfont{heiti}{黑体,SimHei,STXihei,Heiti SC}\fi
+\ifzufe@fontresolved
+  \providecommand{\heiti}{}
+  \renewcommand{\heiti}{\CJKfamily{heiti}}
+\fi
+
+\zufe@uselocalfont{lishu}{simli}
+\ifzufe@fontresolved\else\zufe@usesysfont{lishu}{隶书,LiSu,STLiti,华文隶书,Baoli SC}\fi
+\providecommand{\lishu}{}
+\ifzufe@fontresolved
+  \renewcommand{\lishu}{\CJKfamily{lishu}}
+\else
+  % ctex 未提供 \lishu（如 fandol 字体集）且系统无隶书：回退为黑体。
+  \renewcommand{\lishu}{\heiti}
+\fi
+
+% 正文主字体：使用与 \songti 完全相同的字体名与选项。
+% ctex 用 \setCJKmainfont 装配正文主字体（即 \CJKrmdefault 族），这条路径不经过
+% \songti 命令。若只重定义命令，不带字体命令的正文仍落在 ctex 选定的字体上
+% （fandol 下即不含生僻字的 FandolSong），自备字体也救不了裸文本。
+% 这里用上面为 \songti 解析出的同一份「字体名 + 选项」重新声明主字体族：字体、
+% AutoFakeBold、AutoFakeSlant 全部一致，正文的常规、加粗、斜体表现与显式写
+% \songti 完全相同，不再有第二套规则。\songti 未解析成功时不动主字体。
+\ifcsname zufe@songtifontname\endcsname
+  \edef\zufe@mainfont{\csname zufe@songtifontname\endcsname}%
+  \edef\zufe@mainfontopts{\csname zufe@songtifontopts\endcsname}%
+  \expandafter\setCJKmainfont\expandafter[\expandafter{\zufe@mainfontopts}]{\zufe@mainfont}%
+\fi
 
 %因不支持生僻字，使用mystkaiti代替
 %\setCJKfamilyfont{kaitigb}[AutoFakeBold,AutoFakeSlant]{[kaiti_GB2312.TTF]}
 %\newcommand{\kaitigb}{\CJKfamily{kaitigb}}
 
-\setCJKfamilyfont{mystsong}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stsong}
-\newcommand{\mystsong}{\CJKfamily{mystsong}}
-\setCJKfamilyfont{mystkaiti}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{stkaiti}
-\newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
-
-% 隶书：按平台依次探测候选字体，全部不可用时回退为模板自带黑体。
-% 候选顺序 Windows(LiSu) -> 通用中文名(隶书) -> 华文隶书(STLiti/华文隶书)
-% -> macOS(Baoli SC，ctex 的 macnew 字体集使用的隶书)。
-% 注：ctex 在部分字体集（如 windows、macnew）下已定义 \lishu，其字体族名为 zhli，
-% 与本模板使用的族名 lishu 不冲突；此处用 \providecommand + \renewcommand 覆盖命令本身，
-% 目的是为其补上 AutoFakeBold（否则 \lishu\bfseries 会被静默忽略）。
-\def\zufe@lishufont{}
-\IfFontExistsTF{LiSu}{\def\zufe@lishufont{LiSu}}{}
-\ifx\zufe@lishufont\@empty
-  \IfFontExistsTF{隶书}{\def\zufe@lishufont{隶书}}{}
-\fi
-\ifx\zufe@lishufont\@empty
-  \IfFontExistsTF{STLiti}{\def\zufe@lishufont{STLiti}}{}
-\fi
-\ifx\zufe@lishufont\@empty
-  \IfFontExistsTF{华文隶书}{\def\zufe@lishufont{华文隶书}}{}
-\fi
-\ifx\zufe@lishufont\@empty
-  \IfFontExistsTF{Baoli SC}{\def\zufe@lishufont{Baoli SC}}{}
-\fi
-\ifx\zufe@lishufont\@empty
-  \setCJKfamilyfont{lishu}[Path=fonts/,Extension=.ttf,AutoFakeBold,AutoFakeSlant]{simhei}
+% 宋体（生僻字）：华文宋体 STSong / 系统宋体
+\zufe@uselocalfont{mystsong}{stsong}
+\ifzufe@fontresolved\else\zufe@usesysfont{mystsong}{STSong,SimSun,Songti SC}\fi
+\ifzufe@fontresolved
+  \newcommand{\mystsong}{\CJKfamily{mystsong}}
 \else
-  \setCJKfamilyfont{lishu}[AutoFakeBold,AutoFakeSlant]{\zufe@lishufont}
+  \ClassWarningNoLine{zufe}{未找到 STSong / SimSun / Songti SC，\string\mystsong 回退为 ctex 默认宋体；\MessageBreak
+    该字体可能不含生僻字，如需显示生僻字请按 fonts/README.md 自备字体}%
+  \newcommand{\mystsong}{\songti}
 \fi
-\providecommand{\lishu}{}
-\renewcommand{\lishu}{\CJKfamily{lishu}}
+
+% 楷体（生僻字）：华文楷体 STKaiti / 系统楷体
+\zufe@uselocalfont{mystkaiti}{stkaiti}
+\ifzufe@fontresolved\else\zufe@usesysfont{mystkaiti}{STKaiti,KaiTi,Kaiti SC}\fi
+\ifzufe@fontresolved
+  \newcommand{\mystkaiti}{\CJKfamily{mystkaiti}}
+\else
+  \ClassWarningNoLine{zufe}{未找到 STKaiti / KaiTi / Kaiti SC，\string\mystkaiti 回退为 ctex 默认楷体；\MessageBreak
+    该字体可能不含生僻字，如需显示生僻字请按 fonts/README.md 自备字体}%
+  \newcommand{\mystkaiti}{\kaishu}
+\fi
+% 中文字体解析------------------------------------------------------------------
 
 \pdfstringdefDisableCommands{%
   \def\textcolor#1#2{#2}%
@@ -168,7 +263,7 @@
   \def\ziju#1{}%
   \def\mystsong{}%
   \def\mystkaiti{}%
-  \def\xihei{}%
+  \def\heiti{}%
   \def\lishu{}%
 }
 
@@ -232,7 +327,7 @@
 
 % 学位论文封面字段：黑体标签 + 楷体下划线取值（硕士/博士封面共用）
 \newcommand{\zufeCoverField}[2]{%
-  \makebox[26mm][l]{\xihei\bfseries\zihao{3}#1}%
+  \makebox[26mm][l]{\heiti\bfseries\zihao{3}#1}%
   \underline{\parbox[b]{84mm}{\centering\mystkaiti\zihao{3}#2}}%
 }
 
@@ -267,7 +362,7 @@
   % 先量取值块尺寸，用于计算标签的抬高量
   \setbox\zufe@coverfieldbox=\hbox{\parbox[b]{84mm}{\centering
     \mystkaiti\fontsize{16.06pt}{\zufe@titlebaseline}\selectfont#2}}%
-  \setbox\zufe@coverlabelbox=\hbox{\xihei\bfseries\zihao{3}#1}%
+  \setbox\zufe@coverlabelbox=\hbox{\heiti\bfseries\zihao{3}#1}%
   % 抬高量按两盒子的垂直中心差计算，再减去 \zufe@coverlabelshift；
   % [0pt][0pt] 让标签不参与行高，字段行高始终由取值块决定
   \makebox[26mm][l]{\raisebox{\dimexpr 0.5\dimexpr\ht\zufe@coverfieldbox
@@ -316,7 +411,7 @@
 \ctexset{chapter={
     name = {},
     number = {\arabic{chapter}},
-    format = {\xihei \bfseries \centering \zihao{3}},
+    format = {\heiti \bfseries \centering \zihao{3}},
     aftername = \hspace{9bp},
     pagestyle = ZUFEThesis,
     beforeskip = 32bp,
@@ -329,7 +424,7 @@
 
 \ctexset{section={
     number = {\thechapter.\hspace{4bp}\arabic{section}},
-    format = {\xihei \raggedright \bfseries \zihao{4}},
+    format = {\heiti \raggedright \bfseries \zihao{4}},
     aftername = \hspace{8bp},
     beforeskip = 20bp plus 1ex minus .2ex,
     afterskip = 18bp plus .2ex,
@@ -339,7 +434,7 @@
 
 \ctexset{subsection={
     number = {\thechapter.\hspace{3bp}\arabic{section}.\hspace{3bp}\arabic{subsection}},
-    format = {\xihei \bfseries \raggedright \zihao{-4}},
+    format = {\heiti \bfseries \raggedright \zihao{-4}},
     aftername = \hspace{7bp},
     beforeskip = 17bp plus 1ex minus .2ex,
     afterskip = 14bp plus .2ex,
@@ -440,6 +535,9 @@
   \fi}
 
 % 中英文扉页：仅硕士/博士
+% 扉页文件内以 \setlength{\parindent}{0pt} 排自身版面，而这些文件是裸的 \input，
+% 没有 titlepage 环境那样的分组，设置会泄漏到后续正文，把整篇论文的首行缩进清零。
+% 这里用 \begingroup/\endgroup 把两页整体包住，扉页内部照常生效、出组即恢复。
 \newcommand{\zufeMakeTitlePages}{%
   \ifzufeBachelor\else
     \begingroup

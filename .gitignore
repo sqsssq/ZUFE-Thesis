@@ -21,3 +21,12 @@
 *.pdf
 *.synctex.gz
 ZUFE-Thesis-*.zip
+
+# 商业字体（SimHei/STSong/STKaiti）无再分发授权，不入库。
+# 体积巨大，误提交后会永久留在 git 历史里，因此在任意目录下都排除。
+*.ttf
+*.TTF
+*.otf
+*.OTF
+*.ttc
+*.TTC
