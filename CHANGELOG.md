@@ -2,7 +2,11 @@
 
 如有问题，请在 Issue 中提出，或发送邮件至 cwf818@gmail.com。
 
-## 未发布
+## v2.0.0（2026-11-01）
+
+**这是破坏性变更版本，升级前请务必阅读本节。**
+
+**从 v1.x 升级需要改动论文源码的地方只有一处**：若用过 `\mystsong`、`\mystkaiti`，改为 `\songti`、`\kaishu`，否则编译报 `Undefined control sequence`。其余改动（不再分发字体、字体解析顺序、加粗效果变化）都不需要改源码，但**输出会有可见差异**，详见下文。若 `fonts/` 下手工放过字体文件，文件名规则也变了，需按 [`fonts/README.md`](fonts/README.md) 改名。
 
 1. **不再随仓库分发商业字体**：`fonts/` 下的 `simhei.ttf`、`stsong.ttf`、`stkaiti.ttf` 已从版本库移除。三者分别为中易黑体（© Beijing ZhongYi Electronics）与华文宋体/华文楷体（© Changzhou SinoType），随 Windows / Office 授权使用，但**许可条款不含再分发授权**，此前以仓库源码与 Release 附件的形式分发并不合规。
 
@@ -23,7 +27,7 @@
    - `.gitignore` 现已排除全部字体二进制（`*.ttf`、`*.otf`、`*.ttc` 及大写形式），避免再次误提交。
    - **`v1.2.0`–`v1.2.3` 的 Release 附件仍含上述字体**，已发布的产物保持原样未做改动；自本版本起的附件不含字体。
 
-3. **`\songti`、`\heiti`、`\kaishu`、`\fangsong`、`\lishu` 复用同一套系统字体探测**：每个命令先查 `fonts/` 下的自备文件，再按「中文名 → 英文名」探测系统字体（`宋体`/`SimSun`、`黑体`/`SimHei`、`楷体`/`KaiTi`、`仿宋`/`FangSong`、`隶书`/`LiSu` 等）；命中则以同名族重新定义该命令并开启 `AutoFakeBold`、`AutoFakeSlant`，未命中时**保持 ctex 原定义不动**。`\lishu` 例外：`fandol` 字体集下 ctex 未定义它，故未命中时回退为黑体。
+2. **`\songti`、`\heiti`、`\kaishu`、`\fangsong`、`\lishu` 复用同一套系统字体探测**：每个命令先查 `fonts/` 下的自备文件，再按「中文名 → 英文名」探测系统字体（`宋体`/`SimSun`、`黑体`/`SimHei`、`楷体`/`KaiTi`、`仿宋`/`FangSong`、`隶书`/`LiSu` 等）；命中则以同名族重新定义该命令并开启 `AutoFakeBold`、`AutoFakeSlant`，未命中时**保持 ctex 原定义不动**。`\lishu` 例外：`fandol` 字体集下 ctex 未定义它，故未命中时回退为黑体。
 
    **正文主字体一并替换**：ctex 通过 `\setCJKmainfont` 装配正文主字体，这条路径不经过 `\songti`，因此仅重定义命令时，不带字体命令的正文仍会落在 ctex 选定的字体上（`fandol` 下即不含生僻字的 FandolSong），自备字体也救不了裸文本。现于 `\songti` 解析成功（无论来自 `fonts/` 还是系统字体）后，用**同一份「字体名 + 选项」**重新声明正文主字体，常规、加粗、斜体表现与显式写 `\songti` 完全一致，不再有第二套规则。
 
@@ -36,7 +40,7 @@
    - `\bfseries`、`\itshape` 的模拟方式由「换字体」改为「合成描边/倾斜」，字形会有细微差别。
    - `\xihei` 已移除，与 `\heiti` 完全重复；请改用 `\heiti`。
 
-4. **移除 `\mystsong`、`\mystkaiti`**：这两个命令的存在理由是旧版中 ctex 的 `\songti`、`\kaishu` 落到不含生僻字的 Fandol，需要另开一条华文宋体/华文楷体的路子。第 3 条让五个命令直接用上系统字体后，生僻字已由 `\songti`、`\kaishu` 自身负责，两个专用命令成为冗余，故删除，由 `\songti`、`\kaishu` 取代。
+3. **移除 `\mystsong`、`\mystkaiti`**：这两个命令的存在理由是旧版中 ctex 的 `\songti`、`\kaishu` 落到不含生僻字的 Fandol，需要另开一条华文宋体/华文楷体的路子。第 2 条让五个命令直接用上系统字体后，生僻字已由 `\songti`、`\kaishu` 自身负责，两个专用命令成为冗余，故删除，由 `\songti`、`\kaishu` 取代。
 
    **迁移：** `{\mystsong{垚瑄}}` → `{\songti{垚瑄}}`，`{\mystkaiti{…}}` → `{\kaishu{…}}`。模板自身的封面、摘要、图表标题等页面已同步替换，输出仅因字体来源不同。论文正文中若用过这两个命令，需自行替换，否则编译报 `Undefined control sequence`。
 
@@ -48,9 +52,9 @@
 
    **探测失败时五个命令各给一条 `Class zufe Warning`**，指明缺哪一种字体、应自备哪个文件名。`\lishu` 无系统隶书时仍回退为黑体。
 
-5. `fonts/README.md` 收敛为一条规则：**某个字体命令不渲染生僻字时，把支持生僻字的字体文件放进 `fonts/` 并按上表改名**，不再区分「常规字体」与「生僻字专用字体」两套目录结构。
+4. `fonts/README.md` 收敛为一条规则：**某个字体命令不渲染生僻字时，把支持生僻字的字体文件放进 `fonts/` 并按上表改名**，不再区分「常规字体」与「生僻字专用字体」两套目录结构。
 
-6. `chapters/1_introduction.tex` 增补五种字体的常规/加粗对照示例，并把该章扩为两页（此前内容处于一页与两页之间的临界状态）；生僻字一节改为按新流程叙述。
+5. `chapters/1_introduction.tex` 增补五种字体的常规/加粗对照示例，并把该章扩为两页（此前内容处于一页与两页之间的临界状态）；生僻字一节改为按新流程叙述。
 
 ## v1.2.4（2026-11-01）
 
@@ -132,7 +136,8 @@
 
 | 版本 | 发布日期 | 对应分节 |
 | --- | --- | --- |
-| [v1.2.4](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.4)（当前稳定版） | 2026-11-01 | v1.2.4 |
+| [v2.0.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.0)（当前稳定版） | 2026-11-01 | v2.0.0 |
+| [v1.2.4](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.4) | 2026-11-01 | v1.2.4 |
 | [v1.2.3](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.3) | 2026-10-31 | v1.2.3 |
 | [v1.2.2](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.2) | 2026-10-28 | v1.2.2 |
 | [v1.2.1](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.1) | 2026-10-23 | 20240601 ~ 20260913 |
@@ -145,7 +150,7 @@
 > v1.2.2 为**有破坏性变更**的功能版本：仅影响 `anony` 版本的输出内容与页数，非匿名版本输出不变。详见该节说明。
 > v1.2.3 为**有破坏性变更**的功能版本：正文公式编号由 `2-1` 改为 `2.1`；附录需改用 `\zufeAppendix`，否则图、表、公式不会切换为字母编号；硕士/博士中英文摘要改为各占一页。详见该节说明。
 > v1.2.4 仅修复硕士/博士正文首行缩进丢失，不涉及命令或编号变更，本科论文输出不变。
-> 未发布节（下一条）不再随仓库与 Release 附件分发商业字体；`\songti` 等五个字体命令改为优先使用系统字体，与 `\bfseries` 连用时现在会真正加粗；`\xihei` 移除（改用 `\heiti`）。该节尚未打标签发布。
+> **v2.0.0 为破坏性变更版本**：不再随仓库与 Release 附件分发商业字体；`\mystsong`、`\mystkaiti` 移除（改用 `\songti`、`\kaishu`）；`\songti` 等五个字体命令改为优先使用系统字体，与 `\bfseries` 连用时现在会真正加粗；`\xihei` 移除（改用 `\heiti`）。详见该节说明。
 
 ## v1.2.1（2026-10-23）
 

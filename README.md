@@ -1,4 +1,4 @@
-<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-1.2.4-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
+<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-2.0.0-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
 
 # ZUFE-Thesis
 
@@ -44,17 +44,20 @@
 
 ### 获取模板
 
-推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v1.2.4`**，附件说明如下：
+推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v2.0.0`**，附件说明如下：
 
 | 附件 | 说明 |
 | --- | --- |
-| `ZUFE-Thesis-1.2.4.zip` | 完整模板（含字体），解压后在根目录编译即可 |
-| `ZUFE-Thesis-1.2.4.pdf` | 该版本的编译结果预览，供对照格式使用 |
+| `ZUFE-Thesis-2.0.0.zip` | 完整模板，解压后在根目录编译即可 |
+| `ZUFE-Thesis-2.0.0.pdf` | 该版本的编译结果预览，供对照格式使用 |
 
+> **⚠️ v2.0.0 是破坏性变更版本。** 若论文中用过 `\mystsong`、`\mystkaiti`，请改为 `\songti`、`\kaishu`，
+> 否则编译报 `Undefined control sequence`。升级细节见 [CHANGELOG.md](CHANGELOG.md) 的 v2.0.0 节。
+>
 > **关于字体**：`v1.2.0`–`v1.2.4` 的 zip 内含商业字体（SimHei、华文宋体、华文楷体）。
-> 当前开发版起，模板不再分发这些字体——它们随 Windows / Office 授权使用，但不含再分发授权。
-> 新版在 Windows 上直接使用系统字体即可正常编译，输出与旧版一致；生僻字、Linux 与在线平台的
-> 处理方式见 [`fonts/README.md`](fonts/README.md)。
+> 自 `v2.0.0` 起，模板不再分发这些字体——它们随 Windows / Office 授权使用，但不含再分发授权，
+> 因此 zip 由约 25 MB 降至约 4 MB。新版在 Windows 上直接使用系统字体即可正常编译；
+> 生僻字、Linux 与在线平台的处理方式见 [`fonts/README.md`](fonts/README.md)。
 
 也可以直接克隆仓库（对应 `main` 分支的最新提交，可能包含未发布的改动）：
 
@@ -234,7 +237,7 @@ latexmk -pdfxe main.tex
 
 ## 更新历史
 
-当前稳定版为 **v1.2.4**，发布于 2026-11-01。本次修复硕士、博士模板正文首行缩进丢失——该问题自 v1.2.0 引入硕博模板时即存在，本科不受影响。详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.4) 与 [CHANGELOG.md](CHANGELOG.md)。
+当前稳定版为 **v2.0.0**，发布于 2026-11-01。这是**破坏性变更版本**：不再随仓库与 Release 附件分发商业字体，`\mystsong`、`\mystkaiti` 两个命令移除，五个字体命令改为优先使用系统字体。用过这两个命令的论文需改为 `\songti`、`\kaishu`。详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.0) 与 [CHANGELOG.md](CHANGELOG.md)。
 
 - 各版本的改动说明：[GitHub Releases](https://github.com/sqsssq/ZUFE-Thesis/releases)
 - 按日期记录的详细改动、版本对应关系及 v1.1.0 升级迁移表：[CHANGELOG.md](CHANGELOG.md)
