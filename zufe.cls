@@ -442,8 +442,10 @@
 % 中英文扉页：仅硕士/博士
 \newcommand{\zufeMakeTitlePages}{%
   \ifzufeBachelor\else
-    \input{misc/\zufeDegreeDir/titlepage_cn}%
-    \input{misc/\zufeDegreeDir/titlepage_en}%
+    \begingroup
+      \input{misc/\zufeDegreeDir/titlepage_cn}%
+      \input{misc/\zufeDegreeDir/titlepage_en}%
+    \endgroup
   \fi}
 
 % 封底：仅硕士/博士，且匿名（盲审）版本不输出
