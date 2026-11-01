@@ -2,6 +2,14 @@
 
 如有问题，请在 Issue 中提出，或发送邮件至 cwf818@gmail.com。
 
+## v1.2.4（2026-11-01）
+
+1. **修复硕士/博士模板正文首行缩进丢失**：`misc/<degree>/titlepage_cn.tex`、`titlepage_en.tex` 内用 `\setlength{\parindent}{0pt}` 排自身版面，但这两个文件是裸 `\input`，没有 `titlepage` 环境那样的分组，设置一直泄漏到其后整个正文，使硕士、博士论文**所有段落的首行缩进归零**（本科封面用的是 `titlepage` 环境，自带分组，故不受影响）。
+
+   现由 `\zufeMakeTitlePages` 用 `\begingroup`/`\endgroup` 把两页整体包住：扉页内部照常生效，出组即恢复，正文缩进恢复正常。
+
+   此问题自 v1.2.0（引入硕士/博士模板）起即存在。影响：硕士、博士论文的正文排版与学校范例不符，段首缺少两个字符的缩进；本科不受影响。修复后硕博正文的换行位置会变化，页数可能增减。
+
 ## v1.2.3（2026-10-31）
 
 1. 修复附录编号（[#8](https://github.com/sqsssq/ZUFE-Thesis/issues/8)）：此前附录用 `\unnumchapter` 引入，而它基于 `\chapter*`，既不推进 `chapter` 计数器也不复位图、表、公式计数器，「附录 A」只是标题文字，其中的图、表、公式仍沿用正文编号（实测附录中第一条公式为 `3-5`、第一幅图为 `3.3`）。
@@ -74,7 +82,8 @@
 
 | 版本 | 发布日期 | 对应分节 |
 | --- | --- | --- |
-| [v1.2.3](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.3)（当前稳定版） | 2026-10-31 | v1.2.3 |
+| [v1.2.4](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.4)（当前稳定版） | 2026-11-01 | v1.2.4 |
+| [v1.2.3](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.3) | 2026-10-31 | v1.2.3 |
 | [v1.2.2](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.2) | 2026-10-28 | v1.2.2 |
 | [v1.2.1](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.1) | 2026-10-23 | 20240601 ~ 20260913 |
 | [v1.2.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.0) | 2026-09-13 | 20240601 ~ 20260913 |
@@ -85,6 +94,7 @@
 > v1.2.1 为 v1.2.0 的文档与构建修订版，不涉及模板功能变更。
 > v1.2.2 为**有破坏性变更**的功能版本：仅影响 `anony` 版本的输出内容与页数，非匿名版本输出不变。详见该节说明。
 > v1.2.3 为**有破坏性变更**的功能版本：正文公式编号由 `2-1` 改为 `2.1`；附录需改用 `\zufeAppendix`，否则图、表、公式不会切换为字母编号；硕士/博士中英文摘要改为各占一页。详见该节说明。
+> v1.2.4 仅修复硕士/博士正文首行缩进丢失，不涉及命令或编号变更，本科论文输出不变。
 
 ## v1.2.1（2026-10-23）
 

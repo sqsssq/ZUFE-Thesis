@@ -1,4 +1,4 @@
-<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-1.2.3-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
+<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-1.2.4-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
 
 # ZUFE-Thesis
 
@@ -44,12 +44,12 @@
 
 ### 获取模板
 
-推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v1.2.2`**，附件说明如下：
+推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v1.2.4`**，附件说明如下：
 
 | 附件 | 说明 |
 | --- | --- |
-| `ZUFE-Thesis-1.2.2.zip` | 完整模板（含字体），解压后在根目录编译即可 |
-| `ZUFE-Thesis-1.2.2.pdf` | 该版本的编译结果预览，供对照格式使用 |
+| `ZUFE-Thesis-1.2.4.zip` | 完整模板（含字体），解压后在根目录编译即可 |
+| `ZUFE-Thesis-1.2.4.pdf` | 该版本的编译结果预览，供对照格式使用 |
 
 也可以直接克隆仓库（对应 `main` 分支的最新提交，可能包含未发布的改动）：
 
@@ -223,7 +223,7 @@ latexmk -pdfxe main.tex
 
 ## 更新历史
 
-当前稳定版为 **v1.2.2**，发布于 2026-10-28。本次收紧 `anony`（匿名/盲审）的处理边界，**匿名版本的输出与页数会变化**，非匿名版本不受影响，详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.2) 与 [CHANGELOG.md](CHANGELOG.md)。
+当前稳定版为 **v1.2.4**，发布于 2026-11-01。本次修复硕士、博士模板正文首行缩进丢失——该问题自 v1.2.0 引入硕博模板时即存在，本科不受影响。详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.4) 与 [CHANGELOG.md](CHANGELOG.md)。
 
 - 各版本的改动说明：[GitHub Releases](https://github.com/sqsssq/ZUFE-Thesis/releases)
 - 按日期记录的详细改动、版本对应关系及 v1.1.0 升级迁移表：[CHANGELOG.md](CHANGELOG.md)
