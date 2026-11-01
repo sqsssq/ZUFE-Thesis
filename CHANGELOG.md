@@ -6,7 +6,7 @@
 
 **这是破坏性变更版本，升级前请务必阅读本节。**
 
-**从 v1.x 升级需要改动论文源码的地方只有一处**：若用过 `\mystsong`、`\mystkaiti`，改为 `\songti`、`\kaishu`，否则编译报 `Undefined control sequence`。其余改动（不再分发字体、字体解析顺序、加粗效果变化）都不需要改源码，但**输出会有可见差异**，详见下文。若 `fonts/` 下手工放过字体文件，文件名规则也变了，需按 [`fonts/README.md`](fonts/README.md) 改名。
+**从 v1.x 升级需要改动论文源码的地方只有一处**：若用过 `\mystsong`、`\mystkaiti`、`\xihei`，分别改为 `\songti`、`\kaishu`、`\heiti`，否则编译报 `Undefined control sequence`。其余改动（不再分发字体、字体解析顺序、加粗效果变化）都不需要改源码，但**输出会有可见差异**，详见下文。若 `fonts/` 下手工放过字体文件，文件名规则也变了，需按 [`fonts/README.md`](fonts/README.md) 改名。
 
 1. **不再随仓库分发商业字体**：`fonts/` 下的 `simhei.ttf`、`stsong.ttf`、`stkaiti.ttf` 已从版本库移除。三者分别为中易黑体（© Beijing ZhongYi Electronics）与华文宋体/华文楷体（© Changzhou SinoType），随 Windows / Office 授权使用，但**许可条款不含再分发授权**，此前以仓库源码与 Release 附件的形式分发并不合规。
 
@@ -16,16 +16,18 @@
    2. 本机系统字体（`SimHei`/`STXihei`、`STSong`/`SimSun`、`STKaiti`/`KaiTi`、`LiSu`/`STLiti`/`Baoli SC`）；
    3. ctex 默认中文字体。
 
-   命中第 1、2 步时输出与 v1.2.3 **逐字节一致**（在 Windows 上实测两条路径生成的 `main.pdf` MD5 相同）。落到第 3 步时仍可编译，但字形与学校范例有差异，且 Fandol 不含生僻字——此时五个命令各给一条 `Class zufe Warning`，指明缺哪一种字体、影响如何。
+   第 1、2 步这两条路径的输出**彼此逐字节一致**（在 Windows 上实测 `main.pdf` MD5 相同：自备 `songti.ttc`/`heiti.ttf`… 与纯用系统字体，产物一致），因此是否自备字体不影响版式，只影响字体来源。
+
+   但**与 v1.2.4 的输出并不相同**：v1.2.4 的封面主标题用 `\mystsong`（华文宋体 STSong）、图表标题用 `\mystkaiti`（华文楷体 STKaiti），本版相应位置改为 `\songti`（SimSun）、`\kaishu`（KaiTi），嵌入字体随之变化，封面与全部图、表标题的字形、字宽都会变，正文换行位置与页数也可能增减。落到第 3 步时仍可编译，但字形与学校范例有差异，且 Fandol 不含生僻字——此时五个命令各给一条 `Class zufe Warning`，指明缺哪一种字体、影响如何。
 
    `\lishu` 在无系统隶书时改为回退到 `\heiti`（而非此前写死的 `fonts/simhei.ttf`），因此缺少字体文件时不会连带失效。
 
    **影响：**
-   - 已有工程无需改动。`fonts/` 中若保留着这三个文件，编译行为与 v1.2.3 完全相同；删掉后由系统字体接管。
-   - 直接 `git clone` 的体积显著下降，Release 附件中的 zip 由约 25 MB 降至约 5 MB。
+   - 已有工程无需改动源码。但 `fonts/` 中留着的 `simhei.ttf`、`stsong.ttf`、`stkaiti.ttf` 已不再被识别——自备字体改为按命令名命名（见第 3 条），要保留原有字体来源，需改名为 `heiti.ttf`、`songti.ttf`、`kaishu.ttf`；不改名则这几种字体改由系统字体接管。
+   - 直接 `git clone` 的体积显著下降，Release 附件中的 zip 由约 25 MB 降至约 4.2 MB。
    - 在 Linux 或未安装中文字体的在线平台编译，会落到第 3 步。需要学校一致的字体或生僻字支持时，按 [`fonts/README.md`](fonts/README.md) 自备字体。
    - `.gitignore` 现已排除全部字体二进制（`*.ttf`、`*.otf`、`*.ttc` 及大写形式），避免再次误提交。
-   - **`v1.2.0`–`v1.2.3` 的 Release 附件仍含上述字体**，已发布的产物保持原样未做改动；自本版本起的附件不含字体。
+   - **`v1.2.0`–`v1.2.4` 的 Release 附件仍含上述字体**，已发布的产物保持原样未做改动；自本版本起的附件不含字体。
 
 2. **`\songti`、`\heiti`、`\kaishu`、`\fangsong`、`\lishu` 复用同一套系统字体探测**：每个命令先查 `fonts/` 下的自备文件，再按「中文名 → 英文名」探测系统字体（`宋体`/`SimSun`、`黑体`/`SimHei`、`楷体`/`KaiTi`、`仿宋`/`FangSong`、`隶书`/`LiSu` 等）；命中则以同名族重新定义该命令并开启 `AutoFakeBold`、`AutoFakeSlant`，未命中时**保持 ctex 原定义不动**。`\lishu` 例外：`fandol` 字体集下 ctex 未定义它，故未命中时回退为黑体。
 
@@ -150,7 +152,7 @@
 > v1.2.2 为**有破坏性变更**的功能版本：仅影响 `anony` 版本的输出内容与页数，非匿名版本输出不变。详见该节说明。
 > v1.2.3 为**有破坏性变更**的功能版本：正文公式编号由 `2-1` 改为 `2.1`；附录需改用 `\zufeAppendix`，否则图、表、公式不会切换为字母编号；硕士/博士中英文摘要改为各占一页。详见该节说明。
 > v1.2.4 仅修复硕士/博士正文首行缩进丢失，不涉及命令或编号变更，本科论文输出不变。
-> **v2.0.0 为破坏性变更版本**：不再随仓库与 Release 附件分发商业字体；`\mystsong`、`\mystkaiti` 移除（改用 `\songti`、`\kaishu`）；`\songti` 等五个字体命令改为优先使用系统字体，与 `\bfseries` 连用时现在会真正加粗；`\xihei` 移除（改用 `\heiti`）。详见该节说明。
+> **v2.0.0 为破坏性变更版本**：不再随仓库与 Release 附件分发商业字体（附件 zip 由约 25 MB 降至约 4.2 MB）；`\mystsong`、`\mystkaiti`、`\xihei` 三个命令移除，分别改用 `\songti`、`\kaishu`、`\heiti`；`\songti` 等五个字体命令改为优先使用系统字体，与 `\bfseries` 连用时现在会真正加粗；自备字体的文件名改为按命令名命名，旧文件名不再识别。**输出与 v1.2.4 有可见差异**（封面、图表标题的字形与分页均可能变化）。详见该节说明。
 
 ## v1.2.1（2026-10-23）
 

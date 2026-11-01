@@ -127,7 +127,7 @@
 % 顺序解析，任一命中即可正常编译：
 %   1. fonts/ 目录下用户自备的字体文件（已被 .gitignore 排除，仅在本机生效），
 %      文件名按命令约定：songti、heiti、kaishu、fangsong、lishu，扩展名
-%      .ttf/.TTF/.otf/.OTF；\kaishu 也接受旧习惯的 kaiti 作文件名
+%      .ttf/.TTF/.otf/.OTF/.ttc/.TTC；\kaishu 也接受旧习惯的 kaiti 作文件名
 %   2. 本机系统字体（Windows 随系统安装、macOS 自带等）
 %   3. ctex 默认中文字体（TeX 发行版自带，通常为 Fandol）
 % 命中 1、2 时字体含生僻字；落到 3 时仍可编译，但 Fandol 不含生僻字、字形也与
@@ -253,10 +253,21 @@
 % 这里用上面为 \songti 解析出的同一份「字体名 + 选项」重新声明主字体族：字体、
 % AutoFakeBold、AutoFakeSlant 全部一致，正文的常规、加粗、斜体表现与显式写
 % \songti 完全相同，不再有第二套规则。\songti 未解析成功时不动主字体。
+%
+% 在 ctex 已绑定过 \CJKrmdefault 的前提下重设主字体，xeCJK 每次都会提示
+% “Redefining CJKfamily `\CJKrmdefault'”，括号里是被替换掉的旧族（如 SimSun(0)）。
+% 这正是本段的目的，属预期信息而非问题，故把该消息降为 Info：日志里仍可查到，
+% 但不再计入警告，xelatex 的输出也不会红字提示。重定向随分组生效，用 \begingroup
+% 把它限制在本次 \setCJKmainfont 之内，此后别处若再出现同类重定义仍按原级别报告。
 \ifcsname zufe@songtifontname\endcsname
   \edef\zufe@mainfont{\csname zufe@songtifontname\endcsname}%
   \edef\zufe@mainfontopts{\csname zufe@songtifontopts\endcsname}%
+  \begingroup
+  \ExplSyntaxOn
+  \msg_redirect_name:nnn { xeCJK } { CJKfamily-redef } { info }
+  \ExplSyntaxOff
   \expandafter\setCJKmainfont\expandafter[\expandafter{\zufe@mainfontopts}]{\zufe@mainfont}%
+  \endgroup
 \fi
 
 % 中文字体解析------------------------------------------------------------------
