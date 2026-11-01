@@ -1,4 +1,4 @@
-<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-2.0.0-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
+<div align=center><img src="InitFile/bachelor/schoolLogo.png" width="20%"><br /><img src="https://img.shields.io/badge/Thesis-ZUFE-brightgreen">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/releases/latest"><img src="https://img.shields.io/badge/release-2.0.1-blue" alt="release"></a>&nbsp;<img src="https://img.shields.io/badge/engine-XeLaTeX-blueviolet">&nbsp;<img src="https://img.shields.io/badge/license-MIT-lightgrey">&nbsp;<a href="https://github.com/sqsssq/ZUFE-Thesis/stargazers"><img src="https://img.shields.io/github/stars/sqsssq/ZUFE-Thesis?color=yellow&label=Stars" alt="Stars"></a></div>
 
 # ZUFE-Thesis
 
@@ -44,12 +44,14 @@
 
 ### 获取模板
 
-推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v2.0.0`**，附件说明如下：
+推荐从 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/latest) 下载**当前稳定版 `v2.0.1`**，附件说明如下：
 
 | 附件 | 说明 |
 | --- | --- |
-| `ZUFE-Thesis-2.0.0.zip` | 完整模板，解压后在根目录编译即可 |
-| `ZUFE-Thesis-2.0.0.pdf` | 该版本的编译结果预览，供对照格式使用 |
+| `ZUFE-Thesis-2.0.1.zip` | 完整模板，解压后在根目录编译即可 |
+| `ZUFE-Thesis-2.0.1.pdf` | 该版本的编译结果预览，供对照格式使用 |
+
+`v2.0.1` 仅把 xeCJK 的一条提示降为日志信息，**输出与 v2.0.0 逐页一致**，升级无需改动任何内容，见 [CHANGELOG.md](CHANGELOG.md) 的 v2.0.1 节。
 
 > **⚠️ v2.0.0 是破坏性变更版本。** 若论文中用过 `\mystsong`、`\mystkaiti`、`\xihei`，请分别改为
 > `\songti`、`\kaishu`、`\heiti`，否则编译报 `Undefined control sequence`。即使没用到这三个命令，
@@ -244,7 +246,9 @@ latexmk -pdfxe main.tex
 
 ## 更新历史
 
-当前稳定版为 **v2.0.0**，发布于 2026-11-01。这是**破坏性变更版本**：不再随仓库与 Release 附件分发商业字体，`\mystsong`、`\mystkaiti`、`\xihei` 三个命令移除，五个字体命令改为优先使用系统字体。用过这三个命令的论文需分别改为 `\songti`、`\kaishu`、`\heiti`。详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.0) 与 [CHANGELOG.md](CHANGELOG.md)。
+当前稳定版为 **v2.0.1**，发布于 2026-11-01。本版为补丁版本：仅把正文主字体重设时 xeCJK 的一条 `Redefining CJKfamily` 警告降为日志信息，输出与 v2.0.0 逐页一致，升级无需改动论文内容。详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.1) 与 [CHANGELOG.md](CHANGELOG.md)。
+
+前一个功能版本 **v2.0.0** 是**破坏性变更版本**：不再随仓库与 Release 附件分发商业字体，`\mystsong`、`\mystkaiti`、`\xihei` 三个命令移除，五个字体命令改为优先使用系统字体。用过这三个命令的论文需分别改为 `\songti`、`\kaishu`、`\heiti`。详见 [Releases](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.0) 与 [CHANGELOG.md](CHANGELOG.md)。
 
 - 各版本的改动说明：[GitHub Releases](https://github.com/sqsssq/ZUFE-Thesis/releases)
 - 按日期记录的详细改动、版本对应关系及 v1.1.0 升级迁移表：[CHANGELOG.md](CHANGELOG.md)

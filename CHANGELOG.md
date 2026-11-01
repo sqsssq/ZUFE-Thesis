@@ -2,6 +2,22 @@
 
 如有问题，请在 Issue 中提出，或发送邮件至 cwf818@gmail.com。
 
+## v2.0.1（2026-11-01）
+
+1. **正文主字体重设时的 xeCJK 提示降为日志信息**：为保证不带字体命令的正文也用上探测到的宋体，`zufe.cls` 会在 ctex 已把 `\CJKrmdefault` 绑定到 `SimSun`（`fandol` 字体集下为 `FandolSong`）之后再次调用 `\setCJKmainfont`。xeCJK 每次都会因此报一条
+
+   ```
+   Package xeCJK Warning: Redefining CJKfamily `\CJKrmdefault' (SimSun(0)).
+   ```
+
+   括号里是被替换掉的旧族，也就是 ctex 原先选定的字体——这正是该段代码的目的，属预期信息而非问题，留在警告里容易让人误以为字体解析出错。现于该处用 `\msg_redirect_name:nnn` 把 `xeCJK` 的 `CJKfamily-redef` 消息降为 `info`：`main.log` 中仍可查到，但不再计入警告，`xelatex` 的输出也不再提示。
+
+   降级语句必须写在 `\setCJKmainfont` 之前（消息在调用当场即发出，写在之后无效），并用 `\begingroup`/`\endgroup` 包住——消息重定向全局生效、不随分组自动回退，若裸写会一直影响到文档结束，把用户自己在 `chapters/basicinfo.tex` 中设置中文字体时真正需要看见的同类警告一并吞掉。
+
+   **影响：无输出变化。** `main.pdf` 仍为 17 页，逐页 100 dpi 位图 MD5 全部一致，`pdffonts` 字体清单逐行相同；升级无需改动论文内容。
+
+2. **v2.0.0 升级说明的更正**：核查 v2.0.0 升级说明时发现若干与实际不符的说法，一并更正。`\xihei` 同样是 v2.0.0 移除的命令，此前升级摘要、README 破坏性变更提示与更新历史段均只提 `\mystsong`、`\mystkaiti`，用过 `\xihei` 的论文会漏改，现补上并给出对应关系（→ `\heiti`）；「命中自备字体或系统字体时输出与 v1.2.3 逐字节一致」不成立，两版嵌入字体不同、`main.pdf` 的 MD5 亦不同，已拆成「两条字体解析路径彼此一致」与「与 v1.2.4 有可见差异」两条分别陈述；Release 附件 zip 实测 4.21 MB，「约 5 MB」更正为「约 4.2 MB」。README 致谢增加贡献者小节，记录周欣雷（[@SeraphinaGlacia](https://github.com/SeraphinaGlacia)）提交 Issue #4–#9 的技术问题反馈、复现与改进建议。
+
 ## v2.0.0（2026-11-01）
 
 **这是破坏性变更版本，升级前请务必阅读本节。**
@@ -138,7 +154,8 @@
 
 | 版本 | 发布日期 | 对应分节 |
 | --- | --- | --- |
-| [v2.0.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.0)（当前稳定版） | 2026-11-01 | v2.0.0 |
+| [v2.0.1](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.1)（当前稳定版） | 2026-11-01 | v2.0.1 |
+| [v2.0.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.0) | 2026-11-01 | v2.0.0 |
 | [v1.2.4](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.4) | 2026-11-01 | v1.2.4 |
 | [v1.2.3](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.3) | 2026-10-31 | v1.2.3 |
 | [v1.2.2](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.2) | 2026-10-28 | v1.2.2 |
@@ -152,6 +169,7 @@
 > v1.2.2 为**有破坏性变更**的功能版本：仅影响 `anony` 版本的输出内容与页数，非匿名版本输出不变。详见该节说明。
 > v1.2.3 为**有破坏性变更**的功能版本：正文公式编号由 `2-1` 改为 `2.1`；附录需改用 `\zufeAppendix`，否则图、表、公式不会切换为字母编号；硕士/博士中英文摘要改为各占一页。详见该节说明。
 > v1.2.4 仅修复硕士/博士正文首行缩进丢失，不涉及命令或编号变更，本科论文输出不变。
+> v2.0.1 仅把 xeCJK 的一条提示降为日志信息，**输出与 v2.0.0 逐页一致**，不涉及命令、文件结构或编译方式变更。
 > **v2.0.0 为破坏性变更版本**：不再随仓库与 Release 附件分发商业字体（附件 zip 由约 25 MB 降至约 4.2 MB）；`\mystsong`、`\mystkaiti`、`\xihei` 三个命令移除，分别改用 `\songti`、`\kaishu`、`\heiti`；`\songti` 等五个字体命令改为优先使用系统字体，与 `\bfseries` 连用时现在会真正加粗；自备字体的文件名改为按命令名命名，旧文件名不再识别。**输出与 v1.2.4 有可见差异**（封面、图表标题的字形与分页均可能变化）。详见该节说明。
 
 ## v1.2.1（2026-10-23）
