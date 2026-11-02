@@ -2,8 +2,17 @@
 % This is file "zufe.cls".
 % 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
+
+% 版本号：\zufeTemplateVersion 是唯一来源，Release 的 PDF 元数据与
+% \ProvidesClass 的工作日志行都取自它。
+% 发版时与 README 的 release-X.Y.Z 徽章一同修改；下一行的日期字段也要一并
+% 改成该版本的发布日期（这是发版要同步的三处之一）。
+% 日期字段不可省略——\ProvidesClass 不带日期时，版本号里的点会被当作日期
+% 解析，编译报 Missing = inserted for \ifnum。
+\newcommand{\zufeTemplateVersion}{2.0.1}
+\newcommand{\zufeTemplateName}{ZUFE-Thesis}
 \ProvidesClass{zufe}
-    [2020/02/07 v1.0 ZUFE Thesis Proposal class]
+    [2026/11/01 v\zufeTemplateVersion\space ZUFE-Thesis LaTeX class]
 
 % 学位类型（本科 / 硕士 / 博士），三者互斥，默认为本科
 \newif\ifzufeBachelor
@@ -81,8 +90,7 @@
   hypertexnames=false,
 }
 
-\newcommand{\zufeTemplateName}{ZUFE-Thesis}
-\newcommand{\zufeTemplateVersion}{2.0.1}
+% \zufeTemplateVersion 与 \zufeTemplateName 已在文件开头定义（\ProvidesClass 要用）
 \newcommand{\zufeTemplateSignature}{ZUFE-Thesis LaTeX Template v\zufeTemplateVersion}
 
 \AtBeginDocument{%
