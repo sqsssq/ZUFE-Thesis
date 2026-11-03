@@ -27,13 +27,13 @@
 \setstretch{1.53}
 \setlength{\parskip}{0em}
 
-\textbf{\heiti\xiaosi{摘要：}}
+\textbf{\heiti\xiaosi{摘要：}}%
 % 中文摘要正文从这里开始-----------------------------------------------------------------
-{\kaishu{\abstractCN}}
+{\kaishu{\expandafter\ignorespaces\abstractCN}}
 
 \vspace{1em}
-\textbf{\heiti\xiaosi{关键词：}}
-{\kaishu{\keywordsCN}}
+\textbf{\heiti\xiaosi{关键词：}}%
+{\kaishu{\expandafter\ignorespaces\keywordsCN}}
 
 % 英文摘要章节
 % 硕士/博士：英文摘要另起一页，页首留出与中文摘要页一致的上边距；
@@ -65,10 +65,15 @@
 \setstretch{1.53}
 \setlength{\parskip}{0em}
 
-\textbf{\heiti\xiaosi{Abstract: }}
-\abstractEN
+% 四个标签都只保留一个词间空格：标签行末换行和 \abstractXX/\keywordsXX
+% 宏体首行的换行都会各吐一个空格，用 \ignorespaces 吞掉，否则标签与正文之
+% 间会排出 2~3 个空格宽的空隙（issue #10）。
+% 中文侧同样需要：xeCJK 会吃掉 CJK 字符间的单个空格，仅靠换行时中文摘要看
+% 不出问题；但正文若以拉丁字符开头（如「R&D 效率」），多余空格就会显形。
+\textbf{\heiti\xiaosi{Abstract:}}\space
+\expandafter\ignorespaces\abstractEN
 
 
-\textbf{\xiaosi{Key words:}}
-\keywordsEN
+\textbf{\xiaosi{Key words:}}\space
+\expandafter\ignorespaces\keywordsEN
 \newpage

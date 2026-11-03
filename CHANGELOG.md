@@ -4,6 +4,10 @@
 
 本文件只记录**功能变化与升级要点**；实现细节、验证数据与逐条取舍见对应的 GitHub Release 说明与提交记录。
 
+## v2.0.2（2026-11-03）
+
+1. **修复中英文摘要标签与正文之间多出空格**（[#10](https://github.com/sqsssq/ZUFE-Thesis/issues/10)）：`摘要：`、`关键词：`、`Abstract:`、`Key words:` 四个标签后各多排了 1~2 个词间空格，其中 `Abstract:` 最宽，与 `Key words:` 明显不齐。现统一为紧接正文，与指导手册「后紧接摘要正文」「后紧接英文摘要正文」的要求一致。升级无需改动论文内容，但摘要页排版有细微变化，跨页位置可能随之改变。
+
 ## v2.0.1（2026-11-01）
 
 1. **正文主字体重设时的 xeCJK 提示降为日志信息**：为了让不带字体命令的正文也用上探测到的宋体，模板会再次调用 `\setCJKmainfont`，xeCJK 因此每次报一条 `Redefining CJKfamily` 警告。该警告正是这段代码的目的，现降为 `info` 级别，`main.log` 中仍可查到，但不再计入警告数。**输出与 v2.0.0 逐页一致**，升级无需改动论文内容。
@@ -142,7 +146,8 @@ v1.2.0 对项目结构做了较大调整，**目录与文件名有破坏性变�
 
 | 版本 | 发布日期 | 对应分节 | 说明 |
 | --- | --- | --- | --- |
-| [v2.0.1](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.1)（当前稳定版） | 2026-11-01 | v2.0.1 | 补丁版，输出与 v2.0.0 逐页一致 |
+| [v2.0.2](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.2)（当前稳定版） | 2026-11-03 | v2.0.2 | 修复摘要标签与正文间的多余空格（#10） |
+| [v2.0.1](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.1) | 2026-11-01 | v2.0.1 | 补丁版，输出与 v2.0.0 逐页一致 |
 | [v2.0.0](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v2.0.0) | 2026-11-01 | v2.0.0 | ⚠️ 破坏性：移除三个命令、不再分发字体 |
 | [v1.2.4](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.4) | 2026-11-01 | v1.2.4 | 修复硕博正文首行缩进丢失 |
 | [v1.2.3](https://github.com/sqsssq/ZUFE-Thesis/releases/tag/v1.2.3) | 2026-10-31 | v1.2.3 | ⚠️ 破坏性：公式编号、附录入口、硕博摘要分页 |

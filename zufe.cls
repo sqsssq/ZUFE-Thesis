@@ -9,10 +9,10 @@
 % 改成该版本的发布日期（这是发版要同步的三处之一）。
 % 日期字段不可省略——\ProvidesClass 不带日期时，版本号里的点会被当作日期
 % 解析，编译报 Missing = inserted for \ifnum。
-\newcommand{\zufeTemplateVersion}{2.0.1}
+\newcommand{\zufeTemplateVersion}{2.0.2}
 \newcommand{\zufeTemplateName}{ZUFE-Thesis}
 \ProvidesClass{zufe}
-    [2026/11/01 v\zufeTemplateVersion\space ZUFE-Thesis LaTeX class]
+    [2026/11/03 v\zufeTemplateVersion\space ZUFE-Thesis LaTeX class]
 
 % 学位类型（本科 / 硕士 / 博士），三者互斥，默认为本科
 \newif\ifzufeBachelor
